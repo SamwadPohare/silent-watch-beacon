@@ -80,13 +80,14 @@ export const useDashboardData = () => {
     }
   ]);
 
+  // Instead of using JSX directly, we'll map icon names to their components
   const metricIcons = {
-    "Activity Patterns": <Activity size={18} />,
-    "Sleep Quality": <Activity size={18} />,
-    "Social Engagement": <MessageSquare size={18} />,
-    "Academic Engagement": <BookOpen size={18} />,
-    "Message Response Time": <MessageSquare size={18} />,
-    "Screen Time": <BrainCircuit size={18} />
+    "Activity Patterns": Activity,
+    "Sleep Quality": Activity,
+    "Social Engagement": MessageSquare,
+    "Academic Engagement": BookOpen,
+    "Message Response Time": MessageSquare,
+    "Screen Time": BrainCircuit
   };
 
   const weeklyTrends = [

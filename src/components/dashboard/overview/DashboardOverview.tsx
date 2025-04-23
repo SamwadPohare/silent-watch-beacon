@@ -4,27 +4,31 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { WellnessMetric, TimelineItem } from "@/types";
 import MetricsCard from "@/components/dashboard/MetricsCard";
 import ActivityTimeline from "@/components/dashboard/ActivityTimeline";
+import { LucideIcon } from "lucide-react";
 
 interface DashboardOverviewProps {
   metrics: WellnessMetric[];
   activityItems: TimelineItem[];
-  metricIcons: Record<string, JSX.Element>;
+  metricIcons: Record<string, LucideIcon>;
 }
 
 const DashboardOverview = ({ metrics, activityItems, metricIcons }: DashboardOverviewProps) => {
   return (
     <div className="space-y-4">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {metrics.map((metric) => (
-          <MetricsCard
-            key={metric.id}
-            title={metric.title}
-            value={metric.value}
-            description={metric.description}
-            status={metric.status}
-            icon={metricIcons[metric.title]}
-          />
-        ))}
+        {metrics.map((metric) => {
+          const IconComponent = metricIcons[metric.title];
+          return (
+            <MetricsCard
+              key={metric.id}
+              title={metric.title}
+              value={metric.value}
+              description={metric.description}
+              status={metric.status}
+              icon={IconComponent && <IconComponent size={18} />}
+            />
+          );
+        })}
       </div>
       
       <div className="grid gap-4 md:grid-cols-2">
