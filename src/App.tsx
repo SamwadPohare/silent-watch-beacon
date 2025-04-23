@@ -13,6 +13,11 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import AuthPage from "@/pages/AuthPage";
 import ActivityPatterns from "@/pages/ActivityPatterns";
+import SleepQuality from "@/pages/SleepQuality";
+import SocialEngagement from "@/pages/SocialEngagement";
+import AcademicEngagement from "@/pages/AcademicEngagement";
+import MessageResponseTime from "@/pages/MessageResponseTime";
+import ScreenTime from "@/pages/ScreenTime";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
 
@@ -75,6 +80,11 @@ const AppRoutes = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/activity-patterns" element={<ActivityPatterns />} />
+        <Route path="/sleep-quality" element={<SleepQuality />} />
+        <Route path="/social-engagement" element={<SocialEngagement />} />
+        <Route path="/academic-engagement" element={<AcademicEngagement />} />
+        <Route path="/message-response-time" element={<MessageResponseTime />} />
+        <Route path="/screen-time" element={<ScreenTime />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
