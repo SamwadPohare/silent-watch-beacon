@@ -1,7 +1,6 @@
-
 import { useState } from "react";
 import { WellnessMetric, TimelineItem } from "@/types";
-import { Activity, BookOpen, BrainCircuit, MessageSquare } from "lucide-react";
+import { Activity, BookOpen, BrainCircuit, MessageSquare, FileText, Users } from "lucide-react";
 
 export const useDashboardData = () => {
   const [metrics] = useState<WellnessMetric[]>([
@@ -46,6 +45,20 @@ export const useDashboardData = () => {
       value: 64,
       description: "Daily device usage patterns",
       status: "warning"
+    },
+    {
+      id: "7",
+      title: "Leave Applications",
+      value: 100,
+      description: "Submit and track leave requests",
+      status: "normal"
+    },
+    {
+      id: "8",
+      title: "Available Counselors",
+      value: 5,
+      description: "Contact counselors for support",
+      status: "normal"
     }
   ]);
 
@@ -80,14 +93,15 @@ export const useDashboardData = () => {
     }
   ]);
 
-  // Instead of using JSX directly, we'll map icon names to their components
   const metricIcons = {
     "Activity Patterns": Activity,
     "Sleep Quality": Activity,
     "Social Engagement": MessageSquare,
     "Academic Engagement": BookOpen,
     "Message Response Time": MessageSquare,
-    "Screen Time": BrainCircuit
+    "Screen Time": BrainCircuit,
+    "Leave Applications": FileText,
+    "Available Counselors": Users
   };
 
   const weeklyTrends = [
