@@ -1,3 +1,4 @@
+
 import { Bell, Settings, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -8,7 +9,7 @@ const Header = () => {
     <header className="bg-white border-b border-border py-3 px-4 flex items-center justify-between sticky top-0 z-10">
       <div className="flex items-center gap-2">
         <NavMenu />
-        <Link to="/" className="font-semibold text-lg text-secondary">
+        <Link to="/" className="font-semibold text-lg">
           <span className="text-primary">Silent</span>Watch
         </Link>
       </div>

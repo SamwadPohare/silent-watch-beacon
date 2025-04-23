@@ -17,16 +17,17 @@ export default function NavMenu() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden">
+        <Button variant="ghost" size="icon" className="lg:hidden">
           <Menu size={24} />
           <span className="sr-only">Open Navigation</span>
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-64 p-0">
-        <SheetHeader>
-          <SheetTitle>
+        <SheetHeader className="p-4">
+          <SheetTitle className="flex items-center">
             <span className="text-primary">Silent</span>Watch
           </SheetTitle>
+          <p className="text-xs text-muted-foreground mt-1">Student Wellness Monitoring</p>
         </SheetHeader>
         <nav className="flex flex-col gap-1 mt-4">
           {NAV_ITEMS.map((item) => {
@@ -37,7 +38,7 @@ export default function NavMenu() {
                 to={item.to}
                 className={`flex items-center gap-3 px-4 py-2.5 rounded-md text-sm font-medium transition-colors ${
                   active
-                    ? "bg-primary text-primary-foreground"
+                    ? "bg-primary text-primary-foreground" 
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 }`}
               >
