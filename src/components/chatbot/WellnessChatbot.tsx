@@ -1,19 +1,67 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, SendIcon } from "lucide-react";
+import { MessageCircle, SendIcon, Phone, Heart, Book, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 type Message = {
   id: string;
   content: string;
   sender: "user" | "bot";
   timestamp: Date;
+  resources?: Resource[];
 };
+
+type Resource = {
+  title: string;
+  description: string;
+  type: "helpline" | "article" | "tip";
+  icon: "phone" | "book" | "heart" | "info";
+};
+
+const mentalHealthResources: Resource[] = [
+  {
+    title: "24/7 Crisis Helpline",
+    description: "Call 1-800-273-8255 - Available 24 hours a day",
+    type: "helpline",
+    icon: "phone"
+  },
+  {
+    title: "Crisis Text Line",
+    description: "Text HOME to 741741 to connect with a Crisis Counselor",
+    type: "helpline",
+    icon: "phone"
+  },
+  {
+    title: "Student Counseling Services",
+    description: "Call (555) 123-4567 to schedule an appointment with a counselor",
+    type: "helpline",
+    icon: "phone"
+  }
+];
+
+const selfCareTips: Resource[] = [
+  {
+    title: "Deep Breathing Exercise",
+    description: "Practice 4-7-8 breathing: Inhale for 4 seconds, hold for 7, exhale for 8",
+    type: "tip",
+    icon: "heart"
+  },
+  {
+    title: "Mindful Walking",
+    description: "Take a 10-minute walk while focusing on your surroundings",
+    type: "tip",
+    icon: "heart"
+  },
+  {
+    title: "Stress Management Guide",
+    description: "Learn evidence-based techniques for managing academic stress",
+    type: "article",
+    icon: "book"
+  }
+];
 
 const initialMessages: Message[] = [
   {
@@ -24,7 +72,6 @@ const initialMessages: Message[] = [
   },
 ];
 
-// Simple responses based on keywords
 const wellnessResponses = [
   {
     keywords: ["stress", "stressed", "overwhelm", "overwhelmed", "pressure"],
@@ -68,15 +115,60 @@ const wellnessResponses = [
   }
 ];
 
-// Default responses when no keywords match
-const defaultResponses = [
-  "Tell me more about how you're feeling.",
-  "What has been on your mind lately?",
-  "I'm here to listen. What would help you feel better right now?",
-  "Sometimes just expressing our thoughts can help. What else would you like to share?",
-  "That's important to acknowledge. How has this been affecting your day-to-day life?",
-  "I appreciate you sharing that with me. Would you like to talk more about it?"
-];
+const generateResourceResponse = (userInput: string): Resource[] => {
+  const input = userInput.toLowerCase();
+  const resources: Resource[] = [];
+  
+  if (input.includes("suicide") || input.includes("kill myself") || input.includes("end it all")) {
+    resources.push(...mentalHealthResources.filter(r => r.type === "helpline"));
+  }
+  
+  if (input.includes("stress") || input.includes("anxiety") || input.includes("overwhelm")) {
+    resources.push(...selfCareTips.slice(0, 2));
+  }
+  
+  if (input.includes("help") || input.includes("resources") || input.includes("learn")) {
+    resources.push(...selfCareTips.filter(r => r.type === "article"));
+  }
+  
+  return resources;
+};
+
+const ResourceList = ({ resources }: { resources: Resource[] }) => {
+  if (!resources || resources.length === 0) return null;
+  
+  return (
+    <Accordion type="single" collapsible className="mt-4">
+      <AccordionItem value="resources">
+        <AccordionTrigger className="text-sm">
+          <Info className="w-4 h-4 mr-2" /> Available Resources
+        </AccordionTrigger>
+        <AccordionContent>
+          <div className="space-y-3">
+            {resources.map((resource, index) => {
+              const Icon = {
+                phone: Phone,
+                book: Book,
+                heart: Heart,
+                info: Info
+              }[resource.icon];
+              
+              return (
+                <div key={index} className="flex items-start gap-2 p-2 rounded-md bg-muted/50">
+                  <Icon className="w-4 h-4 mt-1 shrink-0" />
+                  <div>
+                    <h4 className="font-medium text-sm">{resource.title}</h4>
+                    <p className="text-sm text-muted-foreground">{resource.description}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+};
 
 const WellnessChatbot = () => {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
@@ -86,7 +178,6 @@ const WellnessChatbot = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Scroll to bottom when messages change
     if (scrollAreaRef.current) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
@@ -95,7 +186,8 @@ const WellnessChatbot = () => {
   const handleSendMessage = () => {
     if (inputValue.trim() === "") return;
 
-    // Add user message
+    const resources = generateResourceResponse(inputValue);
+    
     const userMessage: Message = {
       id: Date.now().toString(),
       content: inputValue,
@@ -106,13 +198,14 @@ const WellnessChatbot = () => {
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
 
-    // Generate bot response after a short delay
     setTimeout(() => {
+      const botResponse = generateResponse(inputValue);
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: generateResponse(inputValue),
+        content: botResponse,
         sender: "bot",
         timestamp: new Date(),
+        resources: resources
       };
       setMessages((prev) => [...prev, botMessage]);
     }, 1000);
@@ -121,17 +214,14 @@ const WellnessChatbot = () => {
   const generateResponse = (userInput: string): string => {
     const input = userInput.toLowerCase();
     
-    // Check for keyword matches
     for (const category of wellnessResponses) {
       for (const keyword of category.keywords) {
         if (input.includes(keyword)) {
-          // Return a random response from the matching category
           return category.responses[Math.floor(Math.random() * category.responses.length)];
         }
       }
     }
     
-    // If no keywords match, return a default response
     return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
   };
 
@@ -189,6 +279,7 @@ const WellnessChatbot = () => {
                     }`}
                   >
                     <p className="text-sm">{message.content}</p>
+                    {message.resources && <ResourceList resources={message.resources} />}
                     <p className="text-xs opacity-70 mt-1">
                       {message.timestamp.toLocaleTimeString([], {
                         hour: "2-digit",
