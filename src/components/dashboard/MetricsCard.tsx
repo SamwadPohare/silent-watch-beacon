@@ -1,64 +1,51 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { Link } from "react-router-dom";
 
 interface MetricsCardProps {
   title: string;
   value: number;
-  description?: string;
+  description: string;
   status: "normal" | "warning" | "critical";
   icon?: React.ReactNode;
 }
 
-const MetricsCard = ({ title, value, description, status, icon }: MetricsCardProps) => {
-  const getStatusColor = () => {
-    switch (status) {
-      case "normal":
-        return "text-green-500";
-      case "warning":
-        return "text-amber-500";
-      case "critical":
-        return "text-red-500";
-      default:
-        return "text-green-500";
-    }
+const MetricsCard = ({
+  title,
+  value,
+  description,
+  status,
+  icon
+}: MetricsCardProps) => {
+  // Convert title to URL-friendly format
+  const getRouteFromTitle = (title: string) => {
+    return title.toLowerCase().replace(/\s+/g, '-');
   };
 
-  const getProgressColor = () => {
-    switch (status) {
-      case "normal":
-        return "bg-green-500";
-      case "warning":
-        return "bg-amber-500";
-      case "critical":
-        return "bg-red-500";
-      default:
-        return "bg-green-500";
-    }
+  const statusColors = {
+    normal: "text-green-600",
+    warning: "text-yellow-600",
+    critical: "text-red-600"
   };
 
   return (
-    <Card className="overflow-hidden transition-all hover:shadow-md">
-      <CardHeader className="pb-2">
-        <div className="flex justify-between items-center">
-          <CardTitle className="text-sm font-medium">{title}</CardTitle>
-          {icon && <div className={getStatusColor()}>{icon}</div>}
-        </div>
-        <CardDescription className="text-xs">{description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="flex items-baseline justify-between">
+    <Link to={`/${getRouteFromTitle(title)}`} className="block">
+      <Card className="transition-all hover:shadow-md">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">
+            {title}
+          </CardTitle>
+          {icon && <div className="text-muted-foreground">{icon}</div>}
+        </CardHeader>
+        <CardContent>
           <div className="text-2xl font-bold">{value}%</div>
-          <div className={`text-xs font-medium ${getStatusColor()}`}>
-            {status === "normal" ? "Healthy" : status === "warning" ? "Warning" : "Critical"}
-          </div>
-        </div>
-        <Progress 
-          value={value} 
-          className={`h-1.5 mt-2 ${getProgressColor()}`}
-        />
-      </CardContent>
-    </Card>
+          <CardDescription className="mt-1">{description}</CardDescription>
+          <p className={`mt-2 text-sm font-medium ${statusColors[status]}`}>
+            {status.charAt(0).toUpperCase() + status.slice(1)}
+          </p>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 
