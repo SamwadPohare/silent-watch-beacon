@@ -1,5 +1,7 @@
-
-import { Activity, BookOpen, BrainCircuit, Calendar, Clock, MessageSquare, FileText, FileChart } from "lucide-react";
+import { 
+  Activity, BookOpen, BrainCircuit, Calendar, Clock, 
+  MessageSquare, FileText, FileChartColumn
+} from "lucide-react";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,7 +12,6 @@ import MetricBarChart from "@/components/charts/MetricBarChart";
 import MetricLineChart from "@/components/charts/MetricLineChart";
 
 const Dashboard = () => {
-  // Mock data for wellness metrics
   const [metrics] = useState<WellnessMetric[]>([
     {
       id: "1",
@@ -56,7 +57,6 @@ const Dashboard = () => {
     }
   ]);
 
-  // Mock data for activity timeline
   const [activityItems] = useState<TimelineItem[]>([
     {
       id: "1",
@@ -88,7 +88,6 @@ const Dashboard = () => {
     }
   ]);
 
-  // Icons map for metrics
   const metricIcons = {
     "Activity Patterns": <Activity size={18} />,
     "Sleep Quality": <Clock size={18} />,
@@ -98,7 +97,6 @@ const Dashboard = () => {
     "Screen Time": <BrainCircuit size={18} />
   };
 
-  // Chart data for detailed metrics
   const weeklyTrends = [
     { name: "Mon", value: 75 },
     { name: "Tue", value: 68 },
@@ -118,7 +116,6 @@ const Dashboard = () => {
     { name: "Screen Time", value: 64 }
   ];
 
-  // Wellness report data
   const weeklyReports = [
     {
       id: "report-1",
@@ -376,7 +373,7 @@ const Dashboard = () => {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Monthly Reports</CardTitle>
-                <FileChart size={18} className="text-muted-foreground" />
+                <FileChartColumn size={18} className="text-muted-foreground" />
               </div>
               <CardDescription>
                 Monthly summary reports and analyses
