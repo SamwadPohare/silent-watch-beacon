@@ -20,6 +20,8 @@ import ScreenTime from "@/pages/ScreenTime";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
 import LeaveApplication from "@/pages/LeaveApplication";
+import LeaveApplications from "@/pages/LeaveApplications";
+import AvailableCounselors from "@/pages/AvailableCounselors";
 
 const queryClient = new QueryClient();
 
@@ -82,7 +84,8 @@ const AppRoutes = () => {
         <Route path="/academic-engagement" element={<AcademicEngagement />} />
         <Route path="/message-response-time" element={<MessageResponseTime />} />
         <Route path="/screen-time" element={<ScreenTime />} />
-        <Route path="/leave-application" element={<LeaveApplication />} />
+        <Route path="/leave-applications" element={<LeaveApplications />} />
+        <Route path="/available-counselors" element={<AvailableCounselors />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
