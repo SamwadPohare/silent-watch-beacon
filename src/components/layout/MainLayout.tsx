@@ -2,6 +2,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import WellnessChatbot from "../chatbot/WellnessChatbot";
 
 const MainLayout = () => {
   return (
@@ -15,6 +16,7 @@ const MainLayout = () => {
           <Outlet />
         </main>
       </div>
+      <WellnessChatbot />
     </div>
   );
 };
