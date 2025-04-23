@@ -1,13 +1,62 @@
-
 import { User } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/components/ui/use-toast";
+
+type ProfileData = {
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+};
 
 const Profile = () => {
+  const { user } = useAuth();
+  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    (async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("first_name,last_name")
+        .eq("id", user.id)
+        .maybeSingle();
+      setProfile(data ? {
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: user.email,
+      } : { first_name: null, last_name: null, email: user.email });
+      setFirstName(data?.first_name ?? "");
+      setLastName(data?.last_name ?? "");
+    })();
+  }, [user]);
+
+  const handleProfileUpdate = async () => {
+    if (!user) return;
+    setSaving(true);
+    const { error } = await supabase
+      .from("profiles")
+      .update({ first_name: firstName, last_name: lastName, updated_at: new Date().toISOString() })
+      .eq("id", user.id);
+    setSaving(false);
+    if (error) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: "Profile updated", description: "Your profile has been updated." });
+      setProfile({ ...profile, first_name: firstName, last_name: lastName, email: user.email });
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -24,8 +73,8 @@ const Profile = () => {
               <div className="w-24 h-24 rounded-full bg-primary/20 flex items-center justify-center">
                 <User size={40} className="text-primary" />
               </div>
-              <CardTitle className="mt-4">Alex Johnson</CardTitle>
-              <CardDescription>Student ID: 3476891</CardDescription>
+              <CardTitle className="mt-4">{profile?.first_name} {profile?.last_name}</CardTitle>
+              <CardDescription>{profile?.email}</CardDescription>
             </div>
           </CardHeader>
           <CardContent>
@@ -73,17 +122,17 @@ const Profile = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="first-name">First Name</Label>
-                      <Input id="first-name" defaultValue="Alex" />
+                      <Input id="first-name" value={firstName} onChange={e => setFirstName(e.target.value)} />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="last-name">Last Name</Label>
-                      <Input id="last-name" defaultValue="Johnson" />
+                      <Input id="last-name" value={lastName} onChange={e => setLastName(e.target.value)} />
                     </div>
                   </div>
                   
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" defaultValue="alex.johnson@university.edu" />
+                    <Input id="email" type="email" value={profile?.email ?? ""} disabled />
                   </div>
                   
                   <div className="space-y-2">
@@ -92,7 +141,7 @@ const Profile = () => {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button>Save Changes</Button>
+                  <Button disabled={saving} onClick={handleProfileUpdate}>Save Changes</Button>
                 </CardFooter>
               </Card>
             </TabsContent>
