@@ -276,12 +276,14 @@ const Contacts = () => {
             You haven't added any trusted contacts yet. Add someone you trust to
             receive anonymous wellness alerts.
           </p>
-          <DialogTrigger asChild>
-            <Button variant="outline" className="gap-1">
-              <PlusCircle size={16} />
-              Add Your First Contact
-            </Button>
-          </DialogTrigger>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="gap-1">
+                <PlusCircle size={16} />
+                Add Your First Contact
+              </Button>
+            </DialogTrigger>
+          </Dialog>
         </div>
       )}
     </div>
