@@ -1,15 +1,10 @@
-import { 
-  Activity, BookOpen, BrainCircuit, Calendar, Clock, 
-  MessageSquare, FileText, FileChartColumn
-} from "lucide-react";
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Activity, BookOpen, BrainCircuit, MessageSquare } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import MetricsCard from "@/components/dashboard/MetricsCard";
-import ActivityTimeline from "@/components/dashboard/ActivityTimeline";
 import { WellnessMetric, TimelineItem } from "@/types";
-import MetricBarChart from "@/components/charts/MetricBarChart";
-import MetricLineChart from "@/components/charts/MetricLineChart";
+import DashboardOverview from "@/components/dashboard/overview/DashboardOverview";
+import DashboardMetrics from "@/components/dashboard/metrics/DashboardMetrics";
+import DashboardReports from "@/components/dashboard/reports/DashboardReports";
 
 const Dashboard = () => {
   const [metrics] = useState<WellnessMetric[]>([
@@ -90,7 +85,7 @@ const Dashboard = () => {
 
   const metricIcons = {
     "Activity Patterns": <Activity size={18} />,
-    "Sleep Quality": <Clock size={18} />,
+    "Sleep Quality": <Activity size={18} />,
     "Social Engagement": <MessageSquare size={18} />,
     "Academic Engagement": <BookOpen size={18} />,
     "Message Response Time": <MessageSquare size={18} />,
@@ -186,239 +181,26 @@ const Dashboard = () => {
           <TabsTrigger value="reports">Reports</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="overview" className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {metrics.map((metric) => (
-              <MetricsCard
-                key={metric.id}
-                title={metric.title}
-                value={metric.value}
-                description={metric.description}
-                status={metric.status}
-                icon={metricIcons[metric.title as keyof typeof metricIcons]}
-              />
-            ))}
-          </div>
-          
-          <div className="grid gap-4 md:grid-cols-2">
-            <ActivityTimeline items={activityItems} />
-            
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg font-medium">Weekly Summary</CardTitle>
-                  <Calendar size={18} className="text-muted-foreground" />
-                </div>
-                <CardDescription>
-                  Your wellness overview for the past week
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium">Key Insights:</p>
-                    <ul className="text-sm text-muted-foreground space-y-1.5 pl-4">
-                      <li>Academic engagement has decreased by 15%</li>
-                      <li>Sleep patterns show irregular hours</li>
-                      <li>Social interactions have remained stable</li>
-                    </ul>
-                  </div>
-                  
-                  <div className="pt-2">
-                    <p className="text-sm font-medium">Recommendations:</p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Consider establishing a consistent sleep schedule and reach out to your academic advisor for support with course engagement.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+        <TabsContent value="overview">
+          <DashboardOverview 
+            metrics={metrics}
+            activityItems={activityItems}
+            metricIcons={metricIcons}
+          />
         </TabsContent>
         
-        <TabsContent value="metrics" className="space-y-6">
-          <div>
-            <h2 className="text-xl font-semibold mb-1">Detailed Metrics</h2>
-            <p className="text-muted-foreground">
-              Comprehensive view of all your wellness data and trends
-            </p>
-          </div>
-          
-          <div className="grid gap-6 md:grid-cols-2">
-            <MetricLineChart 
-              data={weeklyTrends}
-              title="Weekly Wellness Score Trend"
-              description="Your overall wellness score over the past week"
-            />
-            <MetricBarChart 
-              data={categoryDistribution}
-              title="Wellness Categories Distribution"
-              description="Breakdown of your wellness metrics by category"
-            />
-          </div>
-          
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-medium">Overall Wellness Score</CardTitle>
-                  <Activity size={18} className="text-muted-foreground" />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">74%</div>
-                <CardDescription className="mt-1">Average of all wellness metrics</CardDescription>
-                <p className="mt-2 text-sm font-medium text-green-600">+3% from last week</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-medium">Highest Category</CardTitle>
-                  <Activity size={18} className="text-muted-foreground" />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">Activity Patterns</div>
-                <CardDescription className="mt-1">Your strongest wellness area</CardDescription>
-                <p className="mt-2 text-sm font-medium text-green-600">85%</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-medium">Needs Improvement</CardTitle>
-                  <BookOpen size={18} className="text-muted-foreground" />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">Academic Engagement</div>
-                <CardDescription className="mt-1">Area requiring attention</CardDescription>
-                <p className="mt-2 text-sm font-medium text-red-600">45%</p>
-              </CardContent>
-            </Card>
-          </div>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Metric Correlations</CardTitle>
-              <CardDescription>
-                Relationships between different wellness metrics
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Key Findings:</p>
-                  <ul className="text-sm text-muted-foreground space-y-1.5 pl-4">
-                    <li><span className="font-medium">Sleep Quality and Academic Engagement</span> - Strong positive correlation (0.82)</li>
-                    <li><span className="font-medium">Screen Time and Sleep Quality</span> - Moderate negative correlation (-0.65)</li>
-                    <li><span className="font-medium">Social Engagement and Message Response Time</span> - Strong positive correlation (0.78)</li>
-                  </ul>
-                </div>
-                
-                <div className="pt-2">
-                  <p className="text-sm font-medium">Insights:</p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Your data suggests that improving sleep quality could significantly boost academic performance.
-                    Reducing late-night screen time may help improve your sleep patterns.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <TabsContent value="metrics">
+          <DashboardMetrics
+            weeklyTrends={weeklyTrends}
+            categoryDistribution={categoryDistribution}
+          />
         </TabsContent>
         
-        <TabsContent value="reports" className="space-y-6">
-          <div>
-            <h2 className="text-xl font-semibold mb-1">Wellness Reports</h2>
-            <p className="text-muted-foreground">
-              Generated reports and insights based on your wellness data
-            </p>
-          </div>
-          
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Weekly Reports</CardTitle>
-                <FileText size={18} className="text-muted-foreground" />
-              </div>
-              <CardDescription>
-                Reports generated for the past week
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {weeklyReports.map(report => (
-                  <div key={report.id} className="border rounded-lg p-4 hover:bg-accent/50 transition-colors cursor-pointer">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="font-medium">{report.title}</h3>
-                        <p className="text-sm text-muted-foreground">{report.date}</p>
-                        <p className="text-sm mt-1">{report.description}</p>
-                      </div>
-                      <div className="bg-primary/10 text-primary rounded px-2 py-1 text-xs font-medium">
-                        {report.category}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Monthly Reports</CardTitle>
-                <FileChartColumn size={18} className="text-muted-foreground" />
-              </div>
-              <CardDescription>
-                Monthly summary reports and analyses
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {monthlyReports.map(report => (
-                  <div key={report.id} className="border rounded-lg p-4 hover:bg-accent/50 transition-colors cursor-pointer">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="font-medium">{report.title}</h3>
-                        <p className="text-sm text-muted-foreground">{report.date}</p>
-                        <p className="text-sm mt-1">{report.description}</p>
-                      </div>
-                      <div className="bg-primary/10 text-primary rounded px-2 py-1 text-xs font-medium">
-                        {report.category}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Custom Reports</CardTitle>
-              <CardDescription>
-                Generate personalized reports based on specific criteria
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-6">
-                <FileText size={36} className="mx-auto text-muted-foreground mb-3" />
-                <h3 className="font-medium text-lg mb-1">Generate Custom Report</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Create a personalized report by selecting specific metrics, time periods, and formats
-                </p>
-                <button className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                  Create New Report
-                </button>
-              </div>
-            </CardContent>
-          </Card>
+        <TabsContent value="reports">
+          <DashboardReports
+            weeklyReports={weeklyReports}
+            monthlyReports={monthlyReports}
+          />
         </TabsContent>
       </Tabs>
     </div>
