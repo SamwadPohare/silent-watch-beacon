@@ -1,4 +1,3 @@
-
 import { 
   Table, 
   TableBody, 
@@ -10,6 +9,8 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BrainCircuit } from "lucide-react";
+import MetricBarChart from "@/components/charts/MetricBarChart";
+import MetricLineChart from "@/components/charts/MetricLineChart";
 
 const ScreenTime = () => {
   // Mock screen time data
@@ -19,6 +20,23 @@ const ScreenTime = () => {
     { date: "2025-04-20", duration: "6.5 hrs", category: "Entertainment", timeOfDay: "Night" },
     { date: "2025-04-19", duration: "3.7 hrs", category: "Productivity", timeOfDay: "Morning" },
     { date: "2025-04-18", duration: "7.2 hrs", category: "Mixed", timeOfDay: "All day" },
+  ];
+
+  // Chart data
+  const timeData = [
+    { name: "Social", value: 35 },
+    { name: "Educational", value: 25 },
+    { name: "Entertainment", value: 20 },
+    { name: "Productivity", value: 15 },
+    { name: "Other", value: 5 }
+  ];
+
+  const weeklyTrend = [
+    { name: "Mon", value: 5.8 },
+    { name: "Tue", value: 4.2 },
+    { name: "Wed", value: 6.5 },
+    { name: "Thu", value: 3.7 },
+    { name: "Fri", value: 7.2 }
   ];
 
   return (
@@ -66,6 +84,19 @@ const ScreenTime = () => {
             <p className="mt-2 text-sm font-medium text-red-600">Critical</p>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <MetricBarChart 
+          data={timeData}
+          title="Screen Time Distribution"
+          description="Breakdown of your screen time by category"
+        />
+        <MetricLineChart 
+          data={weeklyTrend}
+          title="Weekly Screen Time Trend"
+          description="Your screen time patterns over the week"
+        />
       </div>
 
       <Card>

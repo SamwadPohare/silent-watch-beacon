@@ -1,4 +1,3 @@
-
 import { 
   Table, 
   TableBody, 
@@ -10,6 +9,8 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock } from "lucide-react";
+import MetricBarChart from "@/components/charts/MetricBarChart";
+import MetricLineChart from "@/components/charts/MetricLineChart";
 
 const SleepQuality = () => {
   // Mock sleep quality data
@@ -19,6 +20,18 @@ const SleepQuality = () => {
     { date: "2025-04-20", duration: "8.0 hrs", quality: "Good", notes: "Consistent sleep cycle" },
     { date: "2025-04-19", duration: "7.8 hrs", quality: "Good", notes: "Deep sleep reported" },
     { date: "2025-04-18", duration: "5.5 hrs", quality: "Poor", notes: "Late night activity" },
+  ];
+
+  // Chart data
+  const durationData = sleepData.map(item => ({
+    name: item.date.split('-')[2],
+    value: parseFloat(item.duration)
+  }));
+
+  const qualityData = [
+    { name: "Deep Sleep", value: 35 },
+    { name: "Light Sleep", value: 45 },
+    { name: "REM", value: 20 }
   ];
 
   return (
@@ -65,6 +78,19 @@ const SleepQuality = () => {
             <p className="mt-2 text-sm font-medium text-yellow-600">Warning</p>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <MetricLineChart 
+          data={durationData}
+          title="Sleep Duration Trend"
+          description="Your sleep duration over the past days"
+        />
+        <MetricBarChart 
+          data={qualityData}
+          title="Sleep Stages Distribution"
+          description="Breakdown of your sleep stages"
+        />
       </div>
 
       <Card>
