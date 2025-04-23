@@ -45,6 +45,75 @@ export type Database = {
         }
         Relationships: []
       }
+      counselors: {
+        Row: {
+          available_hours: string | null
+          created_at: string | null
+          email: string
+          id: string
+          name: string
+          phone: string
+          specialization: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          available_hours?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          name: string
+          phone: string
+          specialization?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          available_hours?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          name?: string
+          phone?: string
+          specialization?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      leave_applications: {
+        Row: {
+          additional_notes: string | null
+          created_at: string | null
+          end_date: string
+          id: string
+          reason: string
+          start_date: string
+          status: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          additional_notes?: string | null
+          created_at?: string | null
+          end_date: string
+          id?: string
+          reason: string
+          start_date: string
+          status?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          additional_notes?: string | null
+          created_at?: string | null
+          end_date?: string
+          id?: string
+          reason?: string
+          start_date?: string
+          status?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string

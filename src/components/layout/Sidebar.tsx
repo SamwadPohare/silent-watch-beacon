@@ -1,5 +1,4 @@
-
-import { Bell, Home, Settings, User, Users } from "lucide-react";
+import { Bell, Home, Settings, User, Users, FileText } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
@@ -35,6 +34,12 @@ const Sidebar = () => {
       icon: <Settings size={20} />,
       href: "/settings",
       active: location.pathname === "/settings"
+    },
+    {
+      name: "Leave Application",
+      icon: <FileText size={20} />,
+      href: "/leave-application",
+      active: location.pathname === "/leave-application"
     }
   ];
 

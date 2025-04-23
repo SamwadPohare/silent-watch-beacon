@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,10 +19,10 @@ import MessageResponseTime from "@/pages/MessageResponseTime";
 import ScreenTime from "@/pages/ScreenTime";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
+import LeaveApplication from "@/pages/LeaveApplication";
 
 const queryClient = new QueryClient();
 
-// AuthGuard must be used inside Router context
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const { session, loading } = useAuth();
   const location = useLocation();
@@ -45,7 +44,6 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-// App wrapper without router dependencies
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -58,7 +56,6 @@ const App = () => (
   </QueryClientProvider>
 );
 
-// Routes component that uses AuthGuard inside Router context
 const AppRoutes = () => {
   const { loading } = useAuth();
   
@@ -85,6 +82,7 @@ const AppRoutes = () => {
         <Route path="/academic-engagement" element={<AcademicEngagement />} />
         <Route path="/message-response-time" element={<MessageResponseTime />} />
         <Route path="/screen-time" element={<ScreenTime />} />
+        <Route path="/leave-application" element={<LeaveApplication />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
