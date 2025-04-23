@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,7 @@ import { MessageCircle, SendIcon, Phone, Heart, Book, Info } from "lucide-react"
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type Message = {
   id: string;
@@ -113,6 +115,14 @@ const wellnessResponses = [
       "Professional support can make a big difference. You can access our counselor directory through the 'Available Counselors' section."
     ]
   }
+];
+
+// Default responses when no keywords match
+const defaultResponses = [
+  "I'm here to listen. Could you tell me more about what's on your mind?",
+  "How can I best support you today?",
+  "I'm here to help. What would be most helpful for you right now?",
+  "Sometimes just expressing how you feel can help. Would you like to share more about what you're experiencing?"
 ];
 
 const generateResourceResponse = (userInput: string): Resource[] => {
