@@ -17,7 +17,7 @@ const MetricsCard = ({
   status,
   icon
 }: MetricsCardProps) => {
-  // Convert title to URL-friendly format
+  // Convert title to URL-friendly format using dashes
   const getRouteFromTitle = (title: string) => {
     return title.toLowerCase().replace(/\s+/g, '-');
   };

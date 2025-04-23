@@ -12,6 +12,7 @@ import Alerts from "./pages/Alerts";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import AuthPage from "@/pages/AuthPage";
+import ActivityPatterns from "@/pages/ActivityPatterns";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
 
@@ -73,6 +74,7 @@ const AppRoutes = () => {
         <Route path="/alerts" element={<Alerts />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/activity-patterns" element={<ActivityPatterns />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
