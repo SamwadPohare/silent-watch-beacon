@@ -39,16 +39,16 @@ const ScreenTime = () => {
         const data = await DeviceWellbeingService.getScreenTimeData();
         setDeviceData(data);
         toast({
-          title: "Connected to device",
-          description: "Successfully retrieved device data",
+          title: "Device data retrieved",
+          description: `Successfully fetched screen time data: ${data.totalUsage} minutes today`,
           variant: "default",
         });
       } catch (err) {
         console.error("Failed to fetch device data:", err);
-        setError("Could not access device data. Make sure permissions are granted.");
+        setError("Could not access screen time data. Please ensure permissions are granted in device settings.");
         toast({
-          title: "Error accessing device data",
-          description: "Check app permissions and try again",
+          title: "Error accessing screen time",
+          description: "Check device permissions and try again",
           variant: "destructive",
         });
       } finally {
@@ -65,11 +65,11 @@ const ScreenTime = () => {
     value: app.duration
   })) || [];
 
-  // Format minutes to hours
+  // Format minutes to hours and minutes
   const formatMinutesToHours = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    return `${hours}.${mins < 10 ? '0' + mins : mins} hrs`;
+    return `${hours}h ${mins}m`;
   };
 
   return (
@@ -77,20 +77,22 @@ const ScreenTime = () => {
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Screen Time</h1>
         <p className="text-muted-foreground">
-          Analysis of your actual device usage patterns and screen time.
+          Real-time analysis of your device usage patterns.
         </p>
       </div>
 
       {loading ? (
         <div className="flex items-center justify-center h-40">
-          <p className="text-muted-foreground">Loading device data...</p>
+          <p className="text-muted-foreground">Fetching device data...</p>
         </div>
       ) : error ? (
         <Card className="bg-red-50">
           <CardContent className="pt-6">
             <p className="text-red-600">{error}</p>
             <p className="text-sm text-muted-foreground mt-2">
-              This feature requires device permissions. Please ensure the app has the necessary permissions to access usage data.
+              To access screen time data, please grant the necessary permissions in your device settings.
+              For iOS: Settings → Screen Time → Turn On Screen Time
+              For Android: Settings → Digital Wellbeing & Parental Controls
             </p>
           </CardContent>
         </Card>
@@ -105,31 +107,37 @@ const ScreenTime = () => {
               <CardContent>
                 <div className="text-2xl font-bold">{formatMinutesToHours(deviceData?.totalUsage || 0)}</div>
                 <CardDescription className="mt-1">Total screen time today</CardDescription>
-                <p className="mt-2 text-sm font-medium text-yellow-600">Connected to device</p>
+                <p className="mt-2 text-sm font-medium text-green-600">Live device data</p>
               </CardContent>
             </Card>
             
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Most Used Category</CardTitle>
+                <CardTitle className="text-sm font-medium">Most Used App</CardTitle>
                 <BrainCircuit size={18} className="text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{deviceData?.appUsage[0]?.appName || "N/A"}</div>
+                <div className="text-2xl font-bold">{deviceData?.appUsage[0]?.appName || "No data"}</div>
                 <CardDescription className="mt-1">{formatMinutesToHours(deviceData?.appUsage[0]?.duration || 0)}</CardDescription>
-                <p className="mt-2 text-sm font-medium text-yellow-600">High usage</p>
+                <p className="mt-2 text-sm font-medium text-yellow-600">
+                  {deviceData?.appUsage[0]?.duration ? 'High usage' : 'No data available'}
+                </p>
               </CardContent>
             </Card>
             
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Wellness Impact</CardTitle>
+                <CardTitle className="text-sm font-medium">Usage Status</CardTitle>
                 <BrainCircuit size={18} className="text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">Moderate</div>
-                <CardDescription className="mt-1">Based on usage patterns</CardDescription>
-                <p className="mt-2 text-sm font-medium text-yellow-600">Some concerns</p>
+                <div className="text-2xl font-bold">
+                  {deviceData?.totalUsage > 360 ? 'Excessive' : 
+                   deviceData?.totalUsage > 240 ? 'High' : 
+                   deviceData?.totalUsage > 120 ? 'Moderate' : 'Normal'}
+                </div>
+                <CardDescription className="mt-1">Based on today's usage</CardDescription>
+                <p className="mt-2 text-sm font-medium text-yellow-600">Updated in real-time</p>
               </CardContent>
             </Card>
           </div>
@@ -137,8 +145,8 @@ const ScreenTime = () => {
           <div className="grid gap-6 md:grid-cols-2">
             <MetricBarChart 
               data={timeData}
-              title="Screen Time Distribution"
-              description="Breakdown of your screen time by category"
+              title="App Usage Distribution"
+              description="Breakdown of your screen time by app"
             />
             <MetricLineChart 
               data={weeklyTrend}
@@ -149,17 +157,17 @@ const ScreenTime = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>App Usage Breakdown</CardTitle>
+              <CardTitle>Detailed App Usage</CardTitle>
               <CardDescription>
-                Today's app usage data from your device
+                Today's detailed app usage data from your device
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
-                <TableCaption>Your screen time data from today ({deviceData?.date})</TableCaption>
+                <TableCaption>Screen time data for {deviceData?.date}</TableCaption>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Category</TableHead>
+                    <TableHead>App</TableHead>
                     <TableHead>Duration</TableHead>
                     <TableHead>Percentage</TableHead>
                   </TableRow>
@@ -169,7 +177,9 @@ const ScreenTime = () => {
                     <TableRow key={index}>
                       <TableCell>{app.appName}</TableCell>
                       <TableCell>{formatMinutesToHours(app.duration)}</TableCell>
-                      <TableCell>{Math.round((app.duration / (deviceData?.totalUsage || 1)) * 100)}%</TableCell>
+                      <TableCell>
+                        {Math.round((app.duration / (deviceData?.totalUsage || 1)) * 100)}%
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
