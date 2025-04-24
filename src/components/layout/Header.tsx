@@ -1,5 +1,5 @@
 
-import { Bell, Settings, User } from "lucide-react";
+import { Bell } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import NavMenu from "./NavMenu";
@@ -18,18 +18,6 @@ const Header = () => {
           <Link to="/notifications">
             <Bell size={20} />
             <span className="sr-only">Notifications</span>
-          </Link>
-        </Button>
-        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" asChild>
-          <Link to="/settings">
-            <Settings size={20} />
-            <span className="sr-only">Settings</span>
-          </Link>
-        </Button>
-        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" asChild>
-          <Link to="/profile">
-            <User size={20} />
-            <span className="sr-only">Profile</span>
           </Link>
         </Button>
       </div>
