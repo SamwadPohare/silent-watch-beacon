@@ -1,4 +1,5 @@
-import { Bell, Home, Settings, User, Users, FileText } from "lucide-react";
+
+import { Bell, Home, Settings, User, Users, FileText, BellRing } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
@@ -22,6 +23,12 @@ const Sidebar = () => {
       icon: <Bell size={20} />,
       href: "/alerts",
       active: location.pathname === "/alerts"
+    },
+    {
+      name: "Notifications",
+      icon: <BellRing size={20} />,
+      href: "/notifications",
+      active: location.pathname === "/notifications"
     },
     {
       name: "Profile",

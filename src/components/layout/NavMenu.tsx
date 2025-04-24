@@ -1,13 +1,14 @@
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu, Home, Users, Bell, User, Settings } from "lucide-react";
+import { Menu, Home, Users, Bell, User, Settings, BellRing } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const NAV_ITEMS = [
   { name: "Dashboard", to: "/", icon: Home },
   { name: "Contacts", to: "/contacts", icon: Users },
   { name: "Alerts", to: "/alerts", icon: Bell },
+  { name: "Notifications", to: "/notifications", icon: BellRing },
   { name: "Profile", to: "/profile", icon: User },
   { name: "Settings", to: "/settings", icon: Settings },
 ];

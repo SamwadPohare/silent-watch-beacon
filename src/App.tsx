@@ -22,6 +22,7 @@ import { useEffect } from "react";
 import LeaveApplication from "@/pages/LeaveApplication";
 import LeaveApplications from "@/pages/LeaveApplications";
 import AvailableCounselors from "@/pages/AvailableCounselors";
+import Notifications from "@/pages/Notifications";
 
 const queryClient = new QueryClient();
 
@@ -76,6 +77,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Dashboard />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/alerts" element={<Alerts />} />
+        <Route path="/notifications" element={<Notifications />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/activity-patterns" element={<ActivityPatterns />} />
