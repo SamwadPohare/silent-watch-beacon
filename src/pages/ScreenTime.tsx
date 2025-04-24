@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
 import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { 
   Table, 
   TableBody, 
   TableCaption, 
@@ -10,7 +18,7 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BrainCircuit } from "lucide-react";
+import { BrainCircuit, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import MetricBarChart from "@/components/charts/MetricBarChart";
 import MetricLineChart from "@/components/charts/MetricLineChart";
@@ -21,6 +29,7 @@ const ScreenTime = () => {
   const [deviceData, setDeviceData] = useState<ScreenTimeData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [hasPermission, setHasPermission] = useState(true);
+  const [showPermissionDialog, setShowPermissionDialog] = useState(false);
   const { toast } = useToast();
 
   const weeklyTrend = [
@@ -31,33 +40,46 @@ const ScreenTime = () => {
     { name: "Fri", value: 7.2 }
   ];
 
-  const checkAndRequestPermission = async () => {
-    const hasPermission = await DeviceWellbeingService.checkPermission();
-    setHasPermission(hasPermission);
-    if (!hasPermission) {
-      await DeviceWellbeingService.requestPermission();
-      const newPermissionStatus = await DeviceWellbeingService.checkPermission();
-      setHasPermission(newPermissionStatus);
-      return newPermissionStatus;
+  const checkPermission = async () => {
+    const permissionStatus = await DeviceWellbeingService.checkPermission();
+    setHasPermission(permissionStatus);
+    if (!permissionStatus) {
+      setShowPermissionDialog(true);
     }
-    return hasPermission;
+    return permissionStatus;
+  };
+
+  const handleRequestPermission = async () => {
+    await DeviceWellbeingService.requestPermission();
+    const newPermissionStatus = await checkPermission();
+    if (newPermissionStatus) {
+      setShowPermissionDialog(false);
+      toast({
+        title: "Permission granted",
+        description: "Fetching your screen time data...",
+        variant: "default",
+      });
+      fetchDeviceData();
+    }
   };
 
   const fetchDeviceData = async () => {
     try {
       setLoading(true);
-      const data = await DeviceWellbeingService.getScreenTimeData();
+      const permissionGranted = await checkPermission();
       
+      if (!permissionGranted) {
+        setError("Permission required to access screen time data");
+        return;
+      }
+
+      const data = await DeviceWellbeingService.getScreenTimeData();
       if (data.error === 'permission_required') {
         setError("Permission required to access screen time data");
-        const permissionGranted = await checkAndRequestPermission();
-        if (!permissionGranted) {
-          return;
-        }
-        const newData = await DeviceWellbeingService.getScreenTimeData();
-        setDeviceData(newData);
+        setShowPermissionDialog(true);
       } else {
         setDeviceData(data);
+        setError(null);
         toast({
           title: "Device data retrieved",
           description: `Successfully fetched screen time data: ${data.totalUsage} minutes today`,
@@ -66,7 +88,7 @@ const ScreenTime = () => {
       }
     } catch (err) {
       console.error("Failed to fetch device data:", err);
-      setError("Could not access screen time data. Please ensure permissions are granted in device settings.");
+      setError("Could not access screen time data. Please ensure permissions are granted.");
       toast({
         title: "Error accessing screen time",
         description: "Check device permissions and try again",
@@ -92,32 +114,62 @@ const ScreenTime = () => {
     return `${hours}h ${mins}m`;
   };
 
+  const PermissionRequest = () => (
+    <Dialog open={showPermissionDialog} onOpenChange={setShowPermissionDialog}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Permission Required</DialogTitle>
+          <DialogDescription>
+            To show your actual screen time data, we need permission to access usage statistics. 
+            This data helps you track and manage your device usage patterns.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex items-center space-x-2 my-4">
+          <Shield className="h-6 w-6 text-blue-500" />
+          <p className="text-sm text-muted-foreground">
+            Your data is only used locally on your device to show usage statistics.
+          </p>
+        </div>
+        <DialogFooter>
+          <Button 
+            onClick={handleRequestPermission}
+            className="w-full sm:w-auto"
+          >
+            Grant Permission
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+
   if (!hasPermission) {
     return (
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Screen Time</h1>
           <p className="text-muted-foreground">
-            Permission required to access screen time data
+            Monitor your device usage patterns
           </p>
         </div>
         <Card>
           <CardContent className="pt-6">
-            <p className="text-red-600">Permission Required</p>
-            <p className="text-sm text-muted-foreground mt-2">
-              To access screen time data, we need permission to access your usage statistics.
+            <div className="flex items-center space-x-2 mb-4">
+              <Shield className="h-6 w-6 text-blue-500" />
+              <h2 className="text-lg font-semibold">Permission Required</h2>
+            </div>
+            <p className="text-sm text-muted-foreground mb-4">
+              To show your actual screen time data, we need permission to access usage statistics.
+              This helps you track and manage your device usage patterns effectively.
             </p>
             <Button 
-              className="mt-4"
-              onClick={async () => {
-                await DeviceWellbeingService.requestPermission();
-                fetchDeviceData();
-              }}
+              onClick={handleRequestPermission}
+              className="w-full sm:w-auto"
             >
               Grant Permission
             </Button>
           </CardContent>
         </Card>
+        <PermissionRequest />
       </div>
     );
   }
