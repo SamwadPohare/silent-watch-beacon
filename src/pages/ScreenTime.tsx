@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { 
   Table, 
@@ -10,6 +9,7 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { BrainCircuit } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import MetricBarChart from "@/components/charts/MetricBarChart";
@@ -20,10 +20,9 @@ const ScreenTime = () => {
   const [loading, setLoading] = useState(true);
   const [deviceData, setDeviceData] = useState<ScreenTimeData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [hasPermission, setHasPermission] = useState(true);
   const { toast } = useToast();
 
-  // Mock historical data for the chart 
-  // In a real implementation, we would fetch this from the device
   const weeklyTrend = [
     { name: "Mon", value: 5.8 },
     { name: "Tue", value: 4.2 },
@@ -32,45 +31,96 @@ const ScreenTime = () => {
     { name: "Fri", value: 7.2 }
   ];
 
-  useEffect(() => {
-    const fetchDeviceData = async () => {
-      try {
-        setLoading(true);
-        const data = await DeviceWellbeingService.getScreenTimeData();
+  const checkAndRequestPermission = async () => {
+    const hasPermission = await DeviceWellbeingService.checkPermission();
+    setHasPermission(hasPermission);
+    if (!hasPermission) {
+      await DeviceWellbeingService.requestPermission();
+      const newPermissionStatus = await DeviceWellbeingService.checkPermission();
+      setHasPermission(newPermissionStatus);
+      return newPermissionStatus;
+    }
+    return hasPermission;
+  };
+
+  const fetchDeviceData = async () => {
+    try {
+      setLoading(true);
+      const data = await DeviceWellbeingService.getScreenTimeData();
+      
+      if (data.error === 'permission_required') {
+        setError("Permission required to access screen time data");
+        const permissionGranted = await checkAndRequestPermission();
+        if (!permissionGranted) {
+          return;
+        }
+        const newData = await DeviceWellbeingService.getScreenTimeData();
+        setDeviceData(newData);
+      } else {
         setDeviceData(data);
         toast({
           title: "Device data retrieved",
           description: `Successfully fetched screen time data: ${data.totalUsage} minutes today`,
           variant: "default",
         });
-      } catch (err) {
-        console.error("Failed to fetch device data:", err);
-        setError("Could not access screen time data. Please ensure permissions are granted in device settings.");
-        toast({
-          title: "Error accessing screen time",
-          description: "Check device permissions and try again",
-          variant: "destructive",
-        });
-      } finally {
-        setLoading(false);
       }
-    };
+    } catch (err) {
+      console.error("Failed to fetch device data:", err);
+      setError("Could not access screen time data. Please ensure permissions are granted in device settings.");
+      toast({
+        title: "Error accessing screen time",
+        description: "Check device permissions and try again",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchDeviceData();
-  }, [toast]);
+  }, []);
 
-  // Transform the app usage data for the chart
   const timeData = deviceData?.appUsage.map(app => ({
     name: app.appName,
     value: app.duration
   })) || [];
 
-  // Format minutes to hours and minutes
   const formatMinutesToHours = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     return `${hours}h ${mins}m`;
   };
+
+  if (!hasPermission) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">Screen Time</h1>
+          <p className="text-muted-foreground">
+            Permission required to access screen time data
+          </p>
+        </div>
+        <Card>
+          <CardContent className="pt-6">
+            <p className="text-red-600">Permission Required</p>
+            <p className="text-sm text-muted-foreground mt-2">
+              To access screen time data, we need permission to access your usage statistics.
+            </p>
+            <Button 
+              className="mt-4"
+              onClick={async () => {
+                await DeviceWellbeingService.requestPermission();
+                fetchDeviceData();
+              }}
+            >
+              Grant Permission
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
