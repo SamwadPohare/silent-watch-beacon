@@ -5,9 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/components/ui/use-toast";
+import ContactSelect from "./ContactSelect";
 
 const LeaveApplicationForm = () => {
   const { user } = useAuth();
@@ -16,36 +18,69 @@ const LeaveApplicationForm = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [notes, setNotes] = useState("");
+  const [contactId, setContactId] = useState("");
+  const [isMedicalLeave, setIsMedicalLeave] = useState(false);
+  const [certificateFile, setCertificateFile] = useState<File | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
 
     setLoading(true);
-    const { error } = await supabase.from("leave_applications").insert({
-      user_id: user.id,
-      reason,
-      start_date: startDate,
-      end_date: endDate,
-      additional_notes: notes,
-    });
+    
+    try {
+      let certificateUrl = null;
+      if (isMedicalLeave && certificateFile) {
+        const fileExt = certificateFile.name.split('.').pop();
+        const fileName = `${crypto.randomUUID()}.${fileExt}`;
+        const { error: uploadError } = await supabase.storage
+          .from('medical-certificates')
+          .upload(fileName, certificateFile);
 
-    setLoading(false);
-    if (error) {
+        if (uploadError) throw uploadError;
+        
+        const { data: { publicUrl } } = supabase.storage
+          .from('medical-certificates')
+          .getPublicUrl(fileName);
+          
+        certificateUrl = publicUrl;
+      }
+
+      const { error } = await supabase.from("leave_applications").insert({
+        user_id: user.id,
+        reason,
+        start_date: startDate,
+        end_date: endDate,
+        additional_notes: notes,
+        contact_id: contactId || null,
+        is_medical_leave: isMedicalLeave,
+        medical_certificate_url: certificateUrl,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Leave application submitted successfully.",
+      });
+      
+      // Reset form
+      setReason("");
+      setStartDate("");
+      setEndDate("");
+      setNotes("");
+      setContactId("");
+      setIsMedicalLeave(false);
+      setCertificateFile(null);
+      
+    } catch (error: any) {
       toast({
         title: "Error",
         description: "Failed to submit leave application. Please try again.",
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Success",
-        description: "Leave application submitted successfully.",
-      });
-      setReason("");
-      setStartDate("");
-      setEndDate("");
-      setNotes("");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -89,6 +124,33 @@ const LeaveApplicationForm = () => {
               />
             </div>
           </div>
+
+          <ContactSelect 
+            value={contactId} 
+            onChange={setContactId} 
+          />
+
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="medical-leave"
+              checked={isMedicalLeave}
+              onCheckedChange={(checked) => setIsMedicalLeave(checked as boolean)}
+            />
+            <Label htmlFor="medical-leave">This is a medical leave</Label>
+          </div>
+
+          {isMedicalLeave && (
+            <div className="space-y-2">
+              <Label htmlFor="certificate">Medical Certificate</Label>
+              <Input
+                id="certificate"
+                type="file"
+                accept=".pdf,.jpg,.jpeg,.png"
+                onChange={(e) => setCertificateFile(e.target.files?.[0] || null)}
+                required
+              />
+            </div>
+          )}
 
           <div className="space-y-2">
             <Label htmlFor="notes">Additional Notes</Label>

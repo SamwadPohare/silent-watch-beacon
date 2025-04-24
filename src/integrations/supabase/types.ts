@@ -81,9 +81,12 @@ export type Database = {
       leave_applications: {
         Row: {
           additional_notes: string | null
+          contact_id: string | null
           created_at: string | null
           end_date: string
           id: string
+          is_medical_leave: boolean | null
+          medical_certificate_url: string | null
           reason: string
           start_date: string
           status: string
@@ -92,9 +95,12 @@ export type Database = {
         }
         Insert: {
           additional_notes?: string | null
+          contact_id?: string | null
           created_at?: string | null
           end_date: string
           id?: string
+          is_medical_leave?: boolean | null
+          medical_certificate_url?: string | null
           reason: string
           start_date: string
           status?: string
@@ -103,16 +109,27 @@ export type Database = {
         }
         Update: {
           additional_notes?: string | null
+          contact_id?: string | null
           created_at?: string | null
           end_date?: string
           id?: string
+          is_medical_leave?: boolean | null
+          medical_certificate_url?: string | null
           reason?: string
           start_date?: string
           status?: string
           updated_at?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "leave_applications_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {

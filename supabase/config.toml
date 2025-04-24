@@ -1,1 +1,34 @@
-project_id = "tzgaxvbeababbqsogqsl"
+
+# project configuration
+
+[telemetry]
+description = "Leave Application Management System"
+
+[api]
+port = 54321
+schemas = ["public", "storage"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[studio]
+port = 3000
+
+[db]
+port = 5432
+major_version = 15
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+
+[functions]
+enabled = true
+
+[storage]
+enabled = true
+
+# Add storage bucket for medical certificates
+[[storage.buckets]]
+id = "medical-certificates"
+name = "medical-certificates"
+public = true
