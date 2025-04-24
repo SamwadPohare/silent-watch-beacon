@@ -11,15 +11,19 @@ import android.content.Context;
 import android.app.usage.UsageStats;
 import android.provider.Settings;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ApplicationInfo;
 import java.util.Calendar;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import org.json.JSONArray;
 
 @CapacitorPlugin(name = "Wellbeing")
 public class WellbeingPlugin extends Plugin {
     
-    @PluginMethod
-    public void checkPermission(PluginCall call) {
+    private boolean hasUsageStatsPermission() {
         Context context = getContext();
         UsageStatsManager usageStatsManager = (UsageStatsManager) context
             .getSystemService(Context.USAGE_STATS_SERVICE);
@@ -32,9 +36,23 @@ public class WellbeingPlugin extends Plugin {
         List<UsageStats> stats = usageStatsManager
             .queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime);
         
-        boolean hasPermission = !stats.isEmpty();
+        return stats != null && !stats.isEmpty();
+    }
+
+    private String getAppName(String packageName) {
+        try {
+            PackageManager packageManager = getContext().getPackageManager();
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(packageName, 0);
+            return (String) packageManager.getApplicationLabel(applicationInfo);
+        } catch (PackageManager.NameNotFoundException e) {
+            return packageName;
+        }
+    }
+    
+    @PluginMethod
+    public void checkPermission(PluginCall call) {
         JSObject ret = new JSObject();
-        ret.put("hasPermission", hasPermission);
+        ret.put("hasPermission", hasUsageStatsPermission());
         call.resolve(ret);
     }
 
@@ -53,6 +71,13 @@ public class WellbeingPlugin extends Plugin {
     @PluginMethod
     public void getScreenTime(PluginCall call) {
         try {
+            if (!hasUsageStatsPermission()) {
+                JSObject ret = new JSObject();
+                ret.put("error", "permission_required");
+                call.resolve(ret);
+                return;
+            }
+
             Context context = getContext();
             UsageStatsManager usageStatsManager = (UsageStatsManager) context
                 .getSystemService(Context.USAGE_STATS_SERVICE);
@@ -72,16 +97,27 @@ public class WellbeingPlugin extends Plugin {
                 return;
             }
 
+            // Sort by usage time
+            Collections.sort(stats, new Comparator<UsageStats>() {
+                @Override
+                public int compare(UsageStats us1, UsageStats us2) {
+                    return Long.compare(us2.getTotalTimeInForeground(), us1.getTotalTimeInForeground());
+                }
+            });
+
             long totalTimeInMinutes = 0;
             JSONArray appUsage = new JSONArray();
 
             for (UsageStats usageStats : stats) {
                 long timeInForeground = usageStats.getTotalTimeInForeground() / 60000; // Convert to minutes
-                totalTimeInMinutes += timeInForeground;
-
+                
                 if (timeInForeground > 0) {
+                    totalTimeInMinutes += timeInForeground;
+                    
                     JSObject appData = new JSObject();
-                    appData.put("packageName", usageStats.getPackageName());
+                    String packageName = usageStats.getPackageName();
+                    appData.put("packageName", packageName);
+                    appData.put("appName", getAppName(packageName));
                     appData.put("minutes", timeInForeground);
                     appData.put("lastTimeUsed", usageStats.getLastTimeUsed());
                     appData.put("totalTimeInForeground", usageStats.getTotalTimeInForeground());
@@ -94,7 +130,9 @@ public class WellbeingPlugin extends Plugin {
             ret.put("appUsage", appUsage);
             call.resolve(ret);
         } catch (Exception e) {
-            call.reject("Failed to get usage stats", e);
+            JSObject ret = new JSObject();
+            ret.put("error", "system_error");
+            call.resolve(ret);
         }
     }
 }

@@ -9,7 +9,8 @@ export interface WellbeingPlugin {
       minutes: number;
       lastTimeUsed: number;
       totalTimeInForeground: number;
+      appName?: string;
     }>;
-    error?: string;
+    error?: 'permission_required' | 'system_error';
   }>;
 }

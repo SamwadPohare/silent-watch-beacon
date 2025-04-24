@@ -12,7 +12,7 @@ export interface ScreenTimeData {
   }>;
   timeOfDay: string;
   date: string;
-  error?: string;
+  error?: 'permission_required' | 'system_error';
 }
 
 export class DeviceWellbeingService {
@@ -39,33 +39,32 @@ export class DeviceWellbeingService {
       }
     } catch (error) {
       console.error('Error requesting permission:', error);
+      throw error;
     }
   }
 
   static async getScreenTimeData(): Promise<ScreenTimeData> {
     try {
-      // Get device info to check platform
       const info = await Device.getInfo();
       console.log('Device platform:', info.platform);
       
-      // Try to get actual device data if available
       try {
         const wellbeingData = await Wellbeing.getScreenTime();
         
-        if (wellbeingData.error === 'permission_required') {
+        if (wellbeingData.error) {
           return {
             totalUsage: 0,
             appUsage: [],
             timeOfDay: "All day",
             date: new Date().toISOString().split('T')[0],
-            error: 'permission_required'
+            error: wellbeingData.error
           };
         }
         
         return {
           totalUsage: wellbeingData.totalMinutes,
           appUsage: wellbeingData.appUsage.map(app => ({
-            appName: app.packageName,
+            appName: app.appName || app.packageName,
             duration: app.minutes,
             lastUsed: new Date(app.lastTimeUsed),
             totalTimeInForeground: app.totalTimeInForeground
@@ -78,7 +77,7 @@ export class DeviceWellbeingService {
         
         // Fallback to mock data if plugin isn't available
         return {
-          totalUsage: 270, // 4.5 hours
+          totalUsage: 270,
           appUsage: [
             { appName: "Social Media", duration: 95, lastUsed: new Date(), totalTimeInForeground: 5700000 },
             { appName: "Educational", duration: 75, lastUsed: new Date(), totalTimeInForeground: 4500000 },
