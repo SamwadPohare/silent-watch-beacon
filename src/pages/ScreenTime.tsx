@@ -144,12 +144,10 @@ const ScreenTime = () => {
 
   if (!hasPermission) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Screen Time</h1>
-          <p className="text-muted-foreground">
-            Monitor your device usage patterns
-          </p>
+      <div className="space-y-6 p-6 pb-16">
+        <div className="flex items-center gap-2">
+          <BrainCircuit className="h-8 w-8 text-primary" />
+          <h1 className="text-3xl font-bold tracking-tight">Screen Time</h1>
         </div>
         <Card>
           <CardContent className="pt-6">
@@ -175,12 +173,10 @@ const ScreenTime = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Screen Time</h1>
-        <p className="text-muted-foreground">
-          Real-time analysis of your device usage patterns.
-        </p>
+    <div className="space-y-6 p-6 pb-16">
+      <div className="flex items-center gap-2">
+        <BrainCircuit className="h-8 w-8 text-primary" />
+        <h1 className="text-3xl font-bold tracking-tight">Screen Time</h1>
       </div>
 
       {loading ? (
@@ -199,17 +195,23 @@ const ScreenTime = () => {
           </CardContent>
         </Card>
       ) : (
-        <>
+        <div className="grid gap-6">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <Card>
+            <Card className="bg-gradient-to-br from-purple-50 to-white">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Today's Screen Time</CardTitle>
-                <BrainCircuit size={18} className="text-muted-foreground" />
+                <CardTitle className="text-xl font-bold">Today's Screen Time</CardTitle>
+                <BrainCircuit className="h-5 w-5 text-primary" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{formatMinutesToHours(deviceData?.totalUsage || 0)}</div>
-                <CardDescription className="mt-1">Total screen time today</CardDescription>
-                <p className="mt-2 text-sm font-medium text-green-600">Live device data</p>
+                <div className="mt-2">
+                  <span className="text-5xl font-bold text-primary">
+                    {formatMinutesToHours(deviceData?.totalUsage || 0)}
+                  </span>
+                  <CardDescription className="mt-2 text-sm">
+                    Total screen time today
+                  </CardDescription>
+                  <p className="mt-2 text-sm font-medium text-green-600">Live device data</p>
+                </div>
               </CardContent>
             </Card>
             
@@ -288,8 +290,9 @@ const ScreenTime = () => {
               </Table>
             </CardContent>
           </Card>
-        </>
+        </div>
       )}
+      <PermissionRequest />
     </div>
   );
 };

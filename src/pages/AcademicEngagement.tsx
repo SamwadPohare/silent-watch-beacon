@@ -1,15 +1,7 @@
 
-import { 
-  Table, 
-  TableBody, 
-  TableCaption, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { BookOpen, TrendingDown } from "lucide-react";
 
 const AcademicEngagement = () => {
   // Mock academic engagement data
@@ -23,91 +15,107 @@ const AcademicEngagement = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Academic Engagement</h1>
-        <p className="text-muted-foreground">
-          Tracking your academic activities and class participation.
-        </p>
+    <div className="space-y-6 p-6 pb-16">
+      <div className="flex items-center gap-2">
+        <BookOpen className="h-8 w-8 text-primary" />
+        <h1 className="text-3xl font-bold tracking-tight">Academic Engagement</h1>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Academic Score</CardTitle>
-            <BookOpen size={18} className="text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">45%</div>
-            <CardDescription className="mt-1">Class attendance and participation</CardDescription>
-            <p className="mt-2 text-sm font-medium text-red-600">Critical</p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Attendance Rate</CardTitle>
-            <BookOpen size={18} className="text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">68%</div>
-            <CardDescription className="mt-1">Overall class attendance</CardDescription>
-            <p className="mt-2 text-sm font-medium text-yellow-600">Warning</p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Study Time</CardTitle>
-            <BookOpen size={18} className="text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">12.5 hrs</div>
-            <CardDescription className="mt-1">Weekly tracked study hours</CardDescription>
-            <p className="mt-2 text-sm font-medium text-red-600">Critical</p>
-          </CardContent>
-        </Card>
-      </div>
+      <div className="grid gap-6">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <Card className="bg-gradient-to-br from-purple-50 to-white">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-xl font-bold">Academic Score</CardTitle>
+              <TrendingDown className="h-5 w-5 text-red-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="mt-2">
+                <span className="text-5xl font-bold text-primary">45%</span>
+                <CardDescription className="mt-2 text-sm">
+                  Class attendance and participation
+                </CardDescription>
+                <p className="mt-2 text-sm font-medium text-red-600">Critical</p>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-xl font-bold">Attendance Rate</CardTitle>
+              <BookOpen className="h-5 w-5 text-yellow-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="mt-2">
+                <span className="text-5xl font-bold">68%</span>
+                <CardDescription className="mt-2 text-sm">
+                  Overall class attendance
+                </CardDescription>
+                <p className="mt-2 text-sm font-medium text-yellow-600">Warning</p>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-xl font-bold">Study Time</CardTitle>
+              <BookOpen className="h-5 w-5 text-red-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="mt-2">
+                <span className="text-5xl font-bold">12.5</span>
+                <span className="text-2xl ml-1">hrs</span>
+                <CardDescription className="mt-2 text-sm">
+                  Weekly tracked study hours
+                </CardDescription>
+                <p className="mt-2 text-sm font-medium text-red-600">Critical</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Academic Activity History</CardTitle>
-          <CardDescription>
-            Your recent academic activities and attendance
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableCaption>Your academic activities from the past week</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Date</TableHead>
-                <TableHead>Activity</TableHead>
-                <TableHead>Course</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {academicData.map((record, index) => (
-                <TableRow key={index}>
-                  <TableCell>{record.date}</TableCell>
-                  <TableCell>{record.activity}</TableCell>
-                  <TableCell>{record.course}</TableCell>
-                  <TableCell>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      record.status === 'Present' ? 'bg-green-100 text-green-800' :
-                      record.status === 'Late' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'
-                    }`}>
-                      {record.status}
-                    </span>
-                  </TableCell>
+        <Card>
+          <CardHeader>
+            <CardTitle>Academic Activity History</CardTitle>
+            <CardDescription>
+              Your recent academic activities and attendance
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Activity</TableHead>
+                  <TableHead>Course</TableHead>
+                  <TableHead>Status</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+              </TableHeader>
+              <TableBody>
+                {academicData.map((record, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{record.date}</TableCell>
+                    <TableCell>{record.activity}</TableCell>
+                    <TableCell>
+                      <span className="font-medium">{record.course}</span>
+                    </TableCell>
+                    <TableCell>
+                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                        record.status === 'Present' 
+                          ? 'bg-green-100 text-green-800' 
+                          : record.status === 'Late'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {record.status}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

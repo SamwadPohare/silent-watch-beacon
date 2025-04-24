@@ -1,14 +1,7 @@
-import { 
-  Table, 
-  TableBody, 
-  TableCaption, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from "@/components/ui/table";
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Clock } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { TrendingDown, Sleep } from "lucide-react";
 import MetricBarChart from "@/components/charts/MetricBarChart";
 import MetricLineChart from "@/components/charts/MetricLineChart";
 
@@ -35,95 +28,119 @@ const SleepQuality = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Sleep Quality</h1>
-        <p className="text-muted-foreground">
-          Detailed analysis of your sleep patterns and quality.
-        </p>
+    <div className="space-y-6 p-6 pb-16">
+      <div className="flex items-center gap-2">
+        <Sleep className="h-8 w-8 text-primary" />
+        <h1 className="text-3xl font-bold tracking-tight">Sleep Quality</h1>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Current Sleep Score</CardTitle>
-            <Clock size={18} className="text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">68%</div>
-            <CardDescription className="mt-1">Sleep duration and patterns</CardDescription>
-            <p className="mt-2 text-sm font-medium text-yellow-600">Warning</p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Average Duration</CardTitle>
-            <Clock size={18} className="text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">7.0 hrs</div>
-            <CardDescription className="mt-1">Last 7 days average</CardDescription>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Sleep Regularity</CardTitle>
-            <Clock size={18} className="text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">62%</div>
-            <CardDescription className="mt-1">Consistency in sleep schedule</CardDescription>
-            <p className="mt-2 text-sm font-medium text-yellow-600">Warning</p>
-          </CardContent>
-        </Card>
-      </div>
+      <div className="grid gap-6">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <Card className="bg-gradient-to-br from-purple-50 to-white">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-xl font-bold">Current Sleep Score</CardTitle>
+              <TrendingDown className="h-5 w-5 text-yellow-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="mt-2">
+                <span className="text-5xl font-bold text-primary">68%</span>
+                <CardDescription className="mt-2 text-sm">
+                  Sleep duration and patterns
+                </CardDescription>
+                <p className="mt-2 text-sm font-medium text-yellow-600">Warning</p>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-xl font-bold">Average Duration</CardTitle>
+              <Sleep className="h-5 w-5 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="mt-2">
+                <span className="text-5xl font-bold">7.0</span>
+                <span className="text-2xl ml-1">hrs</span>
+                <CardDescription className="mt-2 text-sm">
+                  Last 7 days average
+                </CardDescription>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-xl font-bold">Sleep Regularity</CardTitle>
+              <Sleep className="h-5 w-5 text-yellow-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="mt-2">
+                <span className="text-5xl font-bold">62%</span>
+                <CardDescription className="mt-2 text-sm">
+                  Consistency in sleep schedule
+                </CardDescription>
+                <p className="mt-2 text-sm font-medium text-yellow-600">Warning</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <MetricLineChart 
-          data={durationData}
-          title="Sleep Duration Trend"
-          description="Your sleep duration over the past days"
-        />
-        <MetricBarChart 
-          data={qualityData}
-          title="Sleep Stages Distribution"
-          description="Breakdown of your sleep stages"
-        />
-      </div>
+        <div className="grid gap-6 md:grid-cols-2">
+          <MetricLineChart 
+            data={durationData}
+            title="Sleep Duration Trend"
+            description="Your sleep duration over the past days"
+          />
+          <MetricBarChart 
+            data={qualityData}
+            title="Sleep Stages Distribution"
+            description="Breakdown of your sleep stages"
+          />
+        </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Sleep History</CardTitle>
-          <CardDescription>
-            Your sleep records for the past 5 days
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableCaption>Your sleep data from the past 5 days</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Date</TableHead>
-                <TableHead>Duration</TableHead>
-                <TableHead>Quality</TableHead>
-                <TableHead>Notes</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {sleepData.map((record, index) => (
-                <TableRow key={index}>
-                  <TableCell>{record.date}</TableCell>
-                  <TableCell>{record.duration}</TableCell>
-                  <TableCell>{record.quality}</TableCell>
-                  <TableCell>{record.notes}</TableCell>
+        <Card>
+          <CardHeader>
+            <CardTitle>Sleep History</CardTitle>
+            <CardDescription>
+              Your sleep records for the past 5 days
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Duration</TableHead>
+                  <TableHead>Quality</TableHead>
+                  <TableHead>Notes</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+              </TableHeader>
+              <TableBody>
+                {sleepData.map((record, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{record.date}</TableCell>
+                    <TableCell>
+                      <span className="font-medium">{record.duration}</span>
+                    </TableCell>
+                    <TableCell>
+                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                        record.quality === 'Good' 
+                          ? 'bg-green-100 text-green-800' 
+                          : record.quality === 'Fair'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {record.quality}
+                      </span>
+                    </TableCell>
+                    <TableCell>{record.notes}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

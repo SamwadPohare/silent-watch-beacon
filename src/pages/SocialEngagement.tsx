@@ -1,15 +1,7 @@
 
-import { 
-  Table, 
-  TableBody, 
-  TableCaption, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { MessageSquare } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { MessageSquare, TrendingUp } from "lucide-react";
 
 const SocialEngagement = () => {
   // Mock social engagement data
@@ -22,81 +14,95 @@ const SocialEngagement = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Social Engagement</h1>
-        <p className="text-muted-foreground">
-          Analysis of your social interactions and communication patterns.
-        </p>
+    <div className="space-y-6 p-6 pb-16">
+      <div className="flex items-center gap-2">
+        <MessageSquare className="h-8 w-8 text-primary" />
+        <h1 className="text-3xl font-bold tracking-tight">Social Engagement</h1>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Social Score</CardTitle>
-            <MessageSquare size={18} className="text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">72%</div>
-            <CardDescription className="mt-1">Interactions and communications</CardDescription>
-            <p className="mt-2 text-sm font-medium text-green-600">Normal</p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Daily Interactions</CardTitle>
-            <MessageSquare size={18} className="text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">23.4</div>
-            <CardDescription className="mt-1">Average interactions per day</CardDescription>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Communication Time</CardTitle>
-            <MessageSquare size={18} className="text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">47 min</div>
-            <CardDescription className="mt-1">Average daily communication time</CardDescription>
-          </CardContent>
-        </Card>
-      </div>
+      <div className="grid gap-6">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <Card className="bg-gradient-to-br from-purple-50 to-white">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-xl font-bold">Social Score</CardTitle>
+              <TrendingUp className="h-5 w-5 text-green-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="mt-2">
+                <span className="text-5xl font-bold text-primary">72%</span>
+                <CardDescription className="mt-2 text-sm">
+                  Interactions and communications
+                </CardDescription>
+                <p className="mt-2 text-sm font-medium text-green-600">Normal</p>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-xl font-bold">Daily Interactions</CardTitle>
+              <MessageSquare className="h-5 w-5 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="mt-2">
+                <span className="text-5xl font-bold">23.4</span>
+                <CardDescription className="mt-2 text-sm">
+                  Average interactions per day
+                </CardDescription>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-xl font-bold">Communication Time</CardTitle>
+              <MessageSquare className="h-5 w-5 text-green-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="mt-2">
+                <span className="text-5xl font-bold">47</span>
+                <span className="text-2xl ml-1">min</span>
+                <CardDescription className="mt-2 text-sm">
+                  Average daily communication time
+                </CardDescription>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Social Interaction History</CardTitle>
-          <CardDescription>
-            Your social interaction data for the past 5 days
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableCaption>Your social interaction data from the past 5 days</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Date</TableHead>
-                <TableHead>Number of Interactions</TableHead>
-                <TableHead>Platform</TableHead>
-                <TableHead>Duration</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {socialData.map((record, index) => (
-                <TableRow key={index}>
-                  <TableCell>{record.date}</TableCell>
-                  <TableCell>{record.interactions}</TableCell>
-                  <TableCell>{record.platform}</TableCell>
-                  <TableCell>{record.duration}</TableCell>
+        <Card>
+          <CardHeader>
+            <CardTitle>Social Interaction History</CardTitle>
+            <CardDescription>
+              Your social interaction data for the past 5 days
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Number of Interactions</TableHead>
+                  <TableHead>Platform</TableHead>
+                  <TableHead>Duration</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+              </TableHeader>
+              <TableBody>
+                {socialData.map((record, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{record.date}</TableCell>
+                    <TableCell>
+                      <span className="font-medium">{record.interactions}</span>
+                    </TableCell>
+                    <TableCell>{record.platform}</TableCell>
+                    <TableCell>{record.duration}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
