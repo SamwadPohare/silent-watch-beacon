@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { App, PluginListenerHandle } from '@capacitor/app';
+import { App } from '@capacitor/app';
 
 export const useBackButton = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    let backButtonListener: PluginListenerHandle | null = null;
+    let backButtonListener: any = null;
 
     const handleBackButton = () => {
       // If we're on the dashboard/home page, allow the app to close
