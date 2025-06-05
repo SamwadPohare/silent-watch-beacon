@@ -6,21 +6,21 @@ import { Button } from "@/components/ui/button";
 const HelplineNumbers = () => {
   const helplines = [
     {
-      title: "24/7 Crisis Helpline",
-      number: "1-800-273-8255",
-      description: "National Suicide Prevention Lifeline",
+      title: "National Suicide Prevention",
+      number: "9152987821",
+      description: "AASRA - 24/7 Suicide Prevention Helpline",
       icon: <PhoneCall className="h-4 w-4 text-primary" />
     },
     {
-      title: "Crisis Text Line",
-      number: "741741",
-      description: "Text HOME to connect with a Crisis Counselor",
+      title: "Mental Health Helpline",
+      number: "9820466726",
+      description: "Connecting Trust - Mental Health Support",
       icon: <Phone className="h-4 w-4 text-primary" />
     },
     {
       title: "Student Counseling Services",
-      number: "(555) 123-4567",
-      description: "Schedule an appointment with a counselor",
+      number: "011-26853846",
+      description: "Vandrevala Foundation - Free 24/7 Counseling",
       icon: <HelpCircle className="h-4 w-4 text-primary" />
     }
   ];

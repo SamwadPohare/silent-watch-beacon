@@ -7,7 +7,7 @@ const AvailableCounselors = () => {
   const counselors = [
     { 
       id: 1, 
-      name: "Dr. Sarah Johnson", 
+      name: "Dr. Priya Sharma", 
       specialty: "Anxiety & Depression", 
       rating: 4.9, 
       availability: "Available Now",
@@ -15,7 +15,7 @@ const AvailableCounselors = () => {
     },
     { 
       id: 2, 
-      name: "Dr. Michael Chen", 
+      name: "Dr. Rajesh Kumar", 
       specialty: "Academic Stress", 
       rating: 4.8, 
       availability: "Available at 2 PM",
@@ -23,11 +23,19 @@ const AvailableCounselors = () => {
     },
     { 
       id: 3, 
-      name: "Dr. Emily Rodriguez", 
+      name: "Dr. Meera Patel", 
       specialty: "Relationship Issues", 
       rating: 4.9, 
       availability: "Available Tomorrow",
       experience: "10 years"
+    },
+    { 
+      id: 4, 
+      name: "Dr. Arjun Singh", 
+      specialty: "Career Counseling", 
+      rating: 4.7, 
+      availability: "Available Now",
+      experience: "5 years"
     },
   ];
 
@@ -57,17 +65,17 @@ const AvailableCounselors = () => {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg font-bold">Quick Stats</CardTitle>
+            <CardTitle className="text-lg font-bold">Counselor Statistics</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4 text-center">
               <div className="space-y-1">
-                <p className="text-2xl font-bold text-primary">12</p>
-                <p className="text-xs text-muted-foreground">Available Today</p>
+                <p className="text-2xl font-bold text-primary">4</p>
+                <p className="text-xs text-muted-foreground">Total Counselors</p>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl font-bold text-green-600">3</p>
-                <p className="text-xs text-muted-foreground">Online Now</p>
+                <p className="text-2xl font-bold text-green-600">2</p>
+                <p className="text-xs text-muted-foreground">Available Now</p>
               </div>
             </div>
           </CardContent>

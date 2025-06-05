@@ -49,15 +49,15 @@ export const useDashboardData = () => {
     {
       id: "7",
       title: "Leave Applications",
-      value: 100,
+      value: 3,
       description: "Submit and track leave requests",
       status: "normal"
     },
     {
       id: "8",
       title: "Available Counselors",
-      value: 5,
-      description: "Contact counselors for support",
+      value: 4,
+      description: "Total counselors available",
       status: "normal"
     }
   ]);

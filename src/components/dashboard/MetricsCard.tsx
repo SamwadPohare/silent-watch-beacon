@@ -28,6 +28,10 @@ const MetricsCard = ({
     critical: "text-red-600"
   };
 
+  // Determine if the value should be displayed as a percentage or as a number
+  const shouldShowPercentage = !["Leave Applications", "Available Counselors"].includes(title);
+  const displayValue = shouldShowPercentage ? `${value}%` : value.toString();
+
   return (
     <Link to={`/${getRouteFromTitle(title)}`} className="block">
       <Card className="transition-all hover:shadow-md">
@@ -38,7 +42,7 @@ const MetricsCard = ({
           {icon && <div className="text-muted-foreground">{icon}</div>}
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{value}%</div>
+          <div className="text-2xl font-bold">{displayValue}</div>
           <CardDescription className="mt-1">{description}</CardDescription>
           <p className={`mt-2 text-sm font-medium ${statusColors[status]}`}>
             {status.charAt(0).toUpperCase() + status.slice(1)}

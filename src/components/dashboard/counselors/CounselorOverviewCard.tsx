@@ -7,9 +7,9 @@ import { useNavigate } from "react-router-dom";
 const CounselorOverviewCard = () => {
   const navigate = useNavigate();
   const counselors = [
-    { name: "Dr. Sarah Wilson", phone: "(555) 123-4567" },
-    { name: "Dr. James Smith", phone: "(555) 234-5678" },
-    { name: "Dr. Emily Brown", phone: "(555) 345-6789" }
+    { name: "Dr. Priya Sharma", phone: "+91 98765 43210" },
+    { name: "Dr. Rajesh Kumar", phone: "+91 87654 32109" },
+    { name: "Dr. Meera Patel", phone: "+91 76543 21098" }
   ];
 
   return (
