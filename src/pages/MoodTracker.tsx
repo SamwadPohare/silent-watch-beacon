@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -171,10 +170,26 @@ const MoodTracker = () => {
         .eq("mood_alert_enabled", true)
         .eq("is_active", true);
 
-      if (error || !contacts?.length) return;
+      if (error) {
+        console.error("Error fetching contacts:", error);
+        toast({
+          title: "Alert Error",
+          description: "Failed to fetch trusted contacts",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (!contacts?.length) {
+        toast({
+          title: "No Alert Contacts",
+          description: "No trusted contacts are set up to receive mood alerts. You can add them in your contacts settings.",
+        });
+        return;
+      }
 
       // Call edge function to send email alerts
-      const { error: emailError } = await supabase.functions.invoke("send-mood-alert", {
+      const { data: emailResult, error: emailError } = await supabase.functions.invoke("send-mood-alert", {
         body: {
           contacts: contacts,
           userMood: mood,
@@ -184,9 +199,27 @@ const MoodTracker = () => {
 
       if (emailError) {
         console.error("Error sending mood alerts:", emailError);
+        toast({
+          title: "Email Alert Failed",
+          description: `Failed to send mood alerts: ${emailError.message}`,
+          variant: "destructive",
+        });
+      } else {
+        // Show success notification with contact details
+        const contactNames = contacts.map(c => c.name).join(", ");
+        toast({
+          title: "Mood Alerts Sent",
+          description: `Alert emails have been sent to your trusted contacts: ${contactNames}`,
+        });
+        console.log("Mood alert emails sent successfully:", emailResult);
       }
     } catch (error) {
       console.error("Error triggering mood alert:", error);
+      toast({
+        title: "Alert Error",
+        description: "An unexpected error occurred while sending mood alerts",
+        variant: "destructive",
+      });
     }
   };
 
