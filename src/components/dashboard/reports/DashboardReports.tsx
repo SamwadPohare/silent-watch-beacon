@@ -1,6 +1,7 @@
 
-import { FileText, FileChartColumn } from "lucide-react";
+import { FileText, FileChartColumn, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 interface Report {
   id: string;
@@ -22,18 +23,18 @@ const DashboardReports = ({ weeklyReports, monthlyReports }: DashboardReportsPro
       <div>
         <h2 className="text-xl font-semibold mb-1">Wellness Reports</h2>
         <p className="text-muted-foreground">
-          Generated reports and insights based on your wellness data
+          Generated reports and insights based on your mood tracking and wellness data
         </p>
       </div>
       
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>Weekly Reports</CardTitle>
+            <CardTitle>Weekly Mood Reports</CardTitle>
             <FileText size={18} className="text-muted-foreground" />
           </div>
           <CardDescription>
-            Reports generated for the past week
+            Weekly summaries of your mood patterns and trends
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -59,11 +60,11 @@ const DashboardReports = ({ weeklyReports, monthlyReports }: DashboardReportsPro
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>Monthly Reports</CardTitle>
+            <CardTitle>Monthly Mood Reports</CardTitle>
             <FileChartColumn size={18} className="text-muted-foreground" />
           </div>
           <CardDescription>
-            Monthly summary reports and analyses
+            Comprehensive monthly analysis of your emotional wellness journey
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -75,6 +76,14 @@ const DashboardReports = ({ weeklyReports, monthlyReports }: DashboardReportsPro
                     <h3 className="font-medium">{report.title}</h3>
                     <p className="text-sm text-muted-foreground">{report.date}</p>
                     <p className="text-sm mt-1">{report.description}</p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <Badge variant="outline" className="text-xs">
+                        📊 Mood Trends
+                      </Badge>
+                      <Badge variant="outline" className="text-xs">
+                        🎤 Voice Analysis
+                      </Badge>
+                    </div>
                   </div>
                   <div className="bg-primary/10 text-primary rounded px-2 py-1 text-xs font-medium">
                     {report.category}
@@ -88,21 +97,51 @@ const DashboardReports = ({ weeklyReports, monthlyReports }: DashboardReportsPro
       
       <Card>
         <CardHeader>
-          <CardTitle>Custom Reports</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle>Mood Analytics</CardTitle>
+            <TrendingUp size={18} className="text-muted-foreground" />
+          </div>
           <CardDescription>
-            Generate personalized reports based on specific criteria
+            Real-time insights from your mood tracking data
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-6">
-            <FileText size={36} className="mx-auto text-muted-foreground mb-3" />
-            <h3 className="font-medium text-lg mb-1">Generate Custom Report</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Create a personalized report by selecting specific metrics, time periods, and formats
-            </p>
-            <button className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md text-sm font-medium transition-colors">
-              Create New Report
-            </button>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-medium text-sm mb-2">This Month's Mood Average</h4>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">😊</span>
+                <span className="text-lg font-semibold">3.7/5</span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Based on 24 mood entries</p>
+            </div>
+            
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-medium text-sm mb-2">Voice Notes Recorded</h4>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">🎤</span>
+                <span className="text-lg font-semibold">18</span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Total this month</p>
+            </div>
+            
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-medium text-sm mb-2">Mood Improvement</h4>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">📈</span>
+                <span className="text-lg font-semibold text-green-600">+15%</span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">vs last month</p>
+            </div>
+            
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-medium text-sm mb-2">Support Alerts Sent</h4>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">📧</span>
+                <span className="text-lg font-semibold">2</span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">To trusted contacts</p>
+            </div>
           </div>
         </CardContent>
       </Card>

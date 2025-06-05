@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { WellnessMetric, TimelineItem } from "@/types";
 import { Activity, BookOpen, BrainCircuit, MessageSquare, FileText, Users } from "lucide-react";
@@ -126,53 +127,53 @@ export const useDashboardData = () => {
   const weeklyReports = [
     {
       id: "report-1",
-      title: "Weekly Wellness Summary",
-      date: "April 16-22, 2025",
-      description: "A complete overview of your wellness metrics for the past week",
-      category: "Summary",
+      title: "Weekly Mood Summary",
+      date: "December 30 - January 5, 2025",
+      description: "A complete overview of your mood patterns and emotional wellness for the past week",
+      category: "Mood",
       status: "available"
     },
     {
       id: "report-2",
-      title: "Sleep Pattern Analysis",
-      date: "April 16-22, 2025",
-      description: "Detailed analysis of your sleep patterns and recommendations",
-      category: "Sleep",
+      title: "Voice Analysis Report",
+      date: "December 30 - January 5, 2025",
+      description: "Detailed analysis of your voice recordings and emotional tone patterns",
+      category: "Voice",
       status: "available"
     },
     {
       id: "report-3",
-      title: "Academic Performance",
-      date: "April 16-22, 2025",
-      description: "Analysis of your academic engagement and attendance",
-      category: "Academic",
-      status: "available"
-    },
-    {
-      id: "report-4",
-      title: "Social Interaction Patterns",
-      date: "April 16-22, 2025",
-      description: "Overview of your social engagement and communication habits",
-      category: "Social",
+      title: "Mood Trend Analysis",
+      date: "December 30 - January 5, 2025",
+      description: "Weekly trends and patterns in your emotional wellness journey",
+      category: "Trends",
       status: "available"
     }
   ];
 
   const monthlyReports = [
     {
+      id: "report-4",
+      title: "Monthly Mood Analytics",
+      date: "December 2024",
+      description: "Comprehensive monthly analysis of your mood patterns, including emoji trends and voice note insights",
+      category: "Mood",
+      status: "available"
+    },
+    {
       id: "report-5",
-      title: "Monthly Wellness Summary",
-      date: "April 2025",
-      description: "A comprehensive overview of your wellness metrics for the month",
-      category: "Summary",
+      title: "Emotional Wellness Summary",
+      date: "December 2024",
+      description: "Complete overview of your emotional wellness journey with voice analysis and mood correlations",
+      category: "Wellness",
       status: "available"
     },
     {
       id: "report-6",
-      title: "Monthly Screen Time Analysis",
-      date: "April 2025",
-      description: "Detailed analysis of your screen time and digital habits",
-      category: "Screen Time",
+      title: "Support Network Impact",
+      date: "December 2024",
+      description: "Analysis of trusted contact interactions and support system effectiveness",
+      category: "Support",
       status: "available"
     }
   ];
