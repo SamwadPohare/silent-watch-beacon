@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { TrendingDown, Sleep } from "lucide-react";
+import { TrendingDown, Moon } from "lucide-react";
 import MetricBarChart from "@/components/charts/MetricBarChart";
 import MetricLineChart from "@/components/charts/MetricLineChart";
 
@@ -30,7 +30,7 @@ const SleepQuality = () => {
   return (
     <div className="space-y-6 p-6 pb-16">
       <div className="flex items-center gap-2">
-        <Sleep className="h-8 w-8 text-primary" />
+        <Moon className="h-8 w-8 text-primary" />
         <h1 className="text-3xl font-bold tracking-tight">Sleep Quality</h1>
       </div>
 
@@ -55,7 +55,7 @@ const SleepQuality = () => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-xl font-bold">Average Duration</CardTitle>
-              <Sleep className="h-5 w-5 text-muted-foreground" />
+              <Moon className="h-5 w-5 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="mt-2">
@@ -71,7 +71,7 @@ const SleepQuality = () => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-xl font-bold">Sleep Regularity</CardTitle>
-              <Sleep className="h-5 w-5 text-yellow-500" />
+              <Moon className="h-5 w-5 text-yellow-500" />
             </CardHeader>
             <CardContent>
               <div className="mt-2">
