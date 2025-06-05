@@ -1,6 +1,7 @@
 
 import { Bell, Home, Settings, User, Users, FileText, BellRing } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import Logo from "@/components/ui/logo";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -54,9 +55,10 @@ const Sidebar = () => {
     <aside className="h-screen w-64 border-r border-border bg-white sticky top-0 py-6 px-3 overflow-y-auto">
       <div className="flex flex-col gap-1">
         <div className="px-4 py-2 mb-6">
-          <h1 className="font-bold text-xl">
-            <span className="text-primary">Silent</span>Watch
-          </h1>
+          <div className="flex items-center gap-2 mb-2">
+            <Logo size="lg" className="text-primary" />
+            <h1 className="font-bold text-xl text-primary">Patronus</h1>
+          </div>
           <p className="text-xs text-muted-foreground">Student Wellness Monitoring</p>
         </div>
         

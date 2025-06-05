@@ -3,6 +3,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { Button } from "@/components/ui/button";
 import { Menu, Home, Users, Bell, User, Settings, BellRing } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import Logo from "@/components/ui/logo";
 
 const NAV_ITEMS = [
   { name: "Dashboard", to: "/", icon: Home },
@@ -25,8 +26,9 @@ export default function NavMenu() {
       </SheetTrigger>
       <SheetContent side="left" className="w-64 p-0">
         <SheetHeader className="p-4">
-          <SheetTitle className="flex items-center">
-            <span className="text-primary">Silent</span>Watch
+          <SheetTitle className="flex items-center gap-2">
+            <Logo size="md" className="text-primary" />
+            <span className="text-primary">Patronus</span>
           </SheetTitle>
           <p className="text-xs text-muted-foreground mt-1">Student Wellness Monitoring</p>
         </SheetHeader>
