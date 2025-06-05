@@ -15,6 +15,7 @@ export type Database = {
           email: string
           id: string
           is_active: boolean
+          mood_alert_enabled: boolean | null
           name: string
           phone: string | null
           relation: string
@@ -26,6 +27,7 @@ export type Database = {
           email: string
           id?: string
           is_active?: boolean
+          mood_alert_enabled?: boolean | null
           name: string
           phone?: string | null
           relation: string
@@ -37,6 +39,7 @@ export type Database = {
           email?: string
           id?: string
           is_active?: boolean
+          mood_alert_enabled?: boolean | null
           name?: string
           phone?: string | null
           relation?: string
@@ -131,6 +134,39 @@ export type Database = {
           },
         ]
       }
+      mood_logs: {
+        Row: {
+          created_at: string | null
+          id: string
+          mood_emoji: string
+          mood_score: number | null
+          mood_text: string | null
+          notes: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          mood_emoji: string
+          mood_score?: number | null
+          mood_text?: string | null
+          notes?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          mood_emoji?: string
+          mood_score?: number | null
+          mood_text?: string | null
+          notes?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -154,6 +190,47 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      voice_logs: {
+        Row: {
+          analyzed_mood: string | null
+          audio_url: string
+          created_at: string | null
+          duration_seconds: number | null
+          id: string
+          mood_log_id: string | null
+          transcription: string | null
+          user_id: string
+        }
+        Insert: {
+          analyzed_mood?: string | null
+          audio_url: string
+          created_at?: string | null
+          duration_seconds?: number | null
+          id?: string
+          mood_log_id?: string | null
+          transcription?: string | null
+          user_id: string
+        }
+        Update: {
+          analyzed_mood?: string | null
+          audio_url?: string
+          created_at?: string | null
+          duration_seconds?: number | null
+          id?: string
+          mood_log_id?: string | null
+          transcription?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voice_logs_mood_log_id_fkey"
+            columns: ["mood_log_id"]
+            isOneToOne: false
+            referencedRelation: "mood_logs"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

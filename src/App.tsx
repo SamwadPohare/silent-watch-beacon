@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -17,6 +18,7 @@ import SocialEngagement from "@/pages/SocialEngagement";
 import AcademicEngagement from "@/pages/AcademicEngagement";
 import MessageResponseTime from "@/pages/MessageResponseTime";
 import ScreenTime from "@/pages/ScreenTime";
+import MoodTracker from "@/pages/MoodTracker";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
 import LeaveApplication from "@/pages/LeaveApplication";
@@ -80,6 +82,7 @@ const AppRoutes = () => {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/mood-tracker" element={<MoodTracker />} />
         <Route path="/activity-patterns" element={<ActivityPatterns />} />
         <Route path="/sleep-quality" element={<SleepQuality />} />
         <Route path="/social-engagement" element={<SocialEngagement />} />

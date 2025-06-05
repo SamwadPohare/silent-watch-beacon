@@ -1,5 +1,5 @@
 
-import { Bell, Home, Settings, User, Users, FileText, BellRing } from "lucide-react";
+import { Bell, Home, Settings, User, Users, FileText, BellRing, Heart } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "@/components/ui/logo";
 
@@ -12,6 +12,12 @@ const Sidebar = () => {
       icon: <Home size={20} />,
       href: "/",
       active: location.pathname === "/"
+    },
+    {
+      name: "Mood Tracker",
+      icon: <Heart size={20} />,
+      href: "/mood-tracker",
+      active: location.pathname === "/mood-tracker"
     },
     {
       name: "Contacts",
