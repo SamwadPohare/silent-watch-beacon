@@ -33,100 +33,95 @@ const ActivityPatterns = () => {
   ];
 
   return (
-    <div className="space-y-6 p-6 pb-16">
-      <div className="flex items-center gap-2">
-        <Activity className="h-8 w-8 text-primary" />
-        <h1 className="text-3xl font-bold tracking-tight">Activity Patterns</h1>
+    <div className="space-y-4 p-4 pb-20 max-w-sm mx-auto">
+      <div className="flex items-center gap-2 mb-6">
+        <Activity className="h-6 w-6 text-primary" />
+        <h1 className="text-2xl font-bold tracking-tight">Activity Patterns</h1>
       </div>
 
-      <div className="grid gap-6">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card className="bg-gradient-to-br from-purple-50 to-white">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xl font-bold">Current Score</CardTitle>
+      <div className="space-y-4">
+        <Card className="bg-gradient-to-br from-purple-50 to-white">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg font-bold">Current Score</CardTitle>
               <TrendingUp className="h-5 w-5 text-primary" />
-            </CardHeader>
-            <CardContent>
-              <div className="mt-2">
-                <span className="text-5xl font-bold text-primary">85%</span>
-                <CardDescription className="mt-2 text-sm">
-                  Your activity level score
-                </CardDescription>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xl font-bold">Weekly Average</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <span className="text-4xl font-bold text-primary">85%</span>
+              <CardDescription className="text-sm">
+                Your activity level score
+              </CardDescription>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg font-bold">Weekly Average</CardTitle>
               <Activity className="h-5 w-5 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="mt-2">
-                <span className="text-5xl font-bold">73%</span>
-                <CardDescription className="mt-2 text-sm">
-                  Past 7 days activity
-                </CardDescription>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xl font-bold">Status</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <span className="text-4xl font-bold">73%</span>
+              <CardDescription className="text-sm">
+                Past 7 days activity
+              </CardDescription>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg font-bold">Status</CardTitle>
               <Activity className="h-5 w-5 text-green-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="mt-2">
-                <span className="text-2xl font-bold text-green-600">Normal</span>
-                <CardDescription className="mt-2 text-sm">
-                  Current activity status
-                </CardDescription>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <span className="text-2xl font-bold text-green-600">Normal</span>
+              <CardDescription className="text-sm">
+                Current activity status
+              </CardDescription>
+            </div>
+          </CardContent>
+        </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Activity History</CardTitle>
+            <CardTitle className="text-lg">Activity History</CardTitle>
             <CardDescription>
-              Detailed view of your recent activities
+              Recent activities
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Activity Level</TableHead>
-                  <TableHead>Duration</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {activityHistory.map((activity) => (
-                  <TableRow key={activity.id}>
-                    <TableCell>{activity.date}</TableCell>
-                    <TableCell>
-                      <span className="font-medium">{activity.activityLevel}%</span>
-                    </TableCell>
-                    <TableCell>{activity.duration}</TableCell>
-                    <TableCell>{activity.type}</TableCell>
-                    <TableCell>
-                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                        activity.status === 'Normal' 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {activity.status}
-                      </span>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <div className="space-y-4">
+              {activityHistory.map((activity) => (
+                <div key={activity.id} className="border-b last:border-b-0 pb-3 last:pb-0">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="space-y-1">
+                      <p className="font-medium text-sm">{activity.date}</p>
+                      <p className="text-xs text-muted-foreground">{activity.type}</p>
+                    </div>
+                    <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+                      activity.status === 'Normal' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {activity.status}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-bold">{activity.activityLevel}%</span>
+                    <span className="text-sm text-muted-foreground">{activity.duration}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
       </div>

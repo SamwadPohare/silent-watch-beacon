@@ -1,6 +1,5 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { MessageSquare, TrendingUp } from "lucide-react";
 
 const MessageResponseTime = () => {
@@ -14,92 +13,93 @@ const MessageResponseTime = () => {
   ];
 
   return (
-    <div className="space-y-6 p-6 pb-16">
-      <div className="flex items-center gap-2">
-        <MessageSquare className="h-8 w-8 text-primary" />
-        <h1 className="text-3xl font-bold tracking-tight">Message Response Time</h1>
+    <div className="space-y-4 p-4 pb-20 max-w-sm mx-auto">
+      <div className="flex items-center gap-2 mb-6">
+        <MessageSquare className="h-6 w-6 text-primary" />
+        <h1 className="text-2xl font-bold tracking-tight">Message Response Time</h1>
       </div>
 
-      <div className="grid gap-6">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card className="bg-gradient-to-br from-purple-50 to-white">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xl font-bold">Response Score</CardTitle>
+      <div className="space-y-4">
+        <Card className="bg-gradient-to-br from-purple-50 to-white">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg font-bold">Response Score</CardTitle>
               <TrendingUp className="h-5 w-5 text-green-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="mt-2">
-                <span className="text-5xl font-bold text-primary">82%</span>
-                <CardDescription className="mt-2 text-sm">
-                  How quickly you respond to messages
-                </CardDescription>
-                <p className="mt-2 text-sm font-medium text-green-600">Normal</p>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xl font-bold">Average Response Time</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <span className="text-4xl font-bold text-primary">82%</span>
+              <CardDescription className="text-sm">
+                How quickly you respond to messages
+              </CardDescription>
+              <p className="text-sm font-medium text-green-600">Normal</p>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg font-bold">Average Response Time</CardTitle>
               <MessageSquare className="h-5 w-5 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="mt-2">
-                <span className="text-5xl font-bold">7</span>
-                <span className="text-2xl ml-1">min</span>
-                <CardDescription className="mt-2 text-sm">
-                  Overall average response time
-                </CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <div>
+                <span className="text-4xl font-bold">7</span>
+                <span className="text-xl ml-1">min</span>
               </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xl font-bold">Daily Messages</CardTitle>
+              <CardDescription className="text-sm">
+                Overall average response time
+              </CardDescription>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg font-bold">Daily Messages</CardTitle>
               <MessageSquare className="h-5 w-5 text-green-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="mt-2">
-                <span className="text-5xl font-bold">26.8</span>
-                <CardDescription className="mt-2 text-sm">
-                  Average messages per day
-                </CardDescription>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <span className="text-4xl font-bold">26.8</span>
+              <CardDescription className="text-sm">
+                Average messages per day
+              </CardDescription>
+            </div>
+          </CardContent>
+        </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Message Response History</CardTitle>
+            <CardTitle className="text-lg">Message Response History</CardTitle>
             <CardDescription>
-              Your messaging patterns and response times for the past 5 days
+              Recent messaging patterns
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Messages</TableHead>
-                  <TableHead>Avg. Response Time</TableHead>
-                  <TableHead>Contact Group</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {responseData.map((record, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{record.date}</TableCell>
-                    <TableCell>
-                      <span className="font-medium">{record.messages}</span>
-                    </TableCell>
-                    <TableCell>{record.avgResponseTime}</TableCell>
-                    <TableCell>{record.contactGroup}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <div className="space-y-4">
+              {responseData.map((record, index) => (
+                <div key={index} className="border-b last:border-b-0 pb-3 last:pb-0">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="space-y-1">
+                      <p className="font-medium text-sm">{record.date}</p>
+                      <p className="text-xs text-muted-foreground">{record.contactGroup}</p>
+                    </div>
+                    <span className="text-xs text-muted-foreground">{record.avgResponseTime}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-bold">{record.messages}</span>
+                    <span className="text-sm text-muted-foreground">messages</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
       </div>
