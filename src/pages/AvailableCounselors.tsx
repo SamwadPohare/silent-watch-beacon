@@ -1,43 +1,66 @@
 
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, Phone, MessageSquare, Calendar, Star } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import CounselorBookingForm from "@/components/counselors/CounselorBookingForm";
+
+interface Counselor {
+  id: string;
+  name: string;
+  specialization: string | null;
+  phone: string;
+  email: string;
+  available_hours: string | null;
+}
 
 const AvailableCounselors = () => {
-  const counselors = [
-    { 
-      id: 1, 
-      name: "Dr. Priya Sharma", 
-      specialty: "Anxiety & Depression", 
-      rating: 4.9, 
-      availability: "Available Now",
-      experience: "8 years"
-    },
-    { 
-      id: 2, 
-      name: "Dr. Rajesh Kumar", 
-      specialty: "Academic Stress", 
-      rating: 4.8, 
-      availability: "Available at 2 PM",
-      experience: "6 years"
-    },
-    { 
-      id: 3, 
-      name: "Dr. Meera Patel", 
-      specialty: "Relationship Issues", 
-      rating: 4.9, 
-      availability: "Available Tomorrow",
-      experience: "10 years"
-    },
-    { 
-      id: 4, 
-      name: "Dr. Arjun Singh", 
-      specialty: "Career Counseling", 
-      rating: 4.7, 
-      availability: "Available Now",
-      experience: "5 years"
-    },
-  ];
+  const [counselors, setCounselors] = useState<Counselor[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showBookingForm, setShowBookingForm] = useState(false);
+
+  useEffect(() => {
+    fetchCounselors();
+  }, []);
+
+  const fetchCounselors = async () => {
+    const { data, error } = await supabase
+      .from("counselors")
+      .select("*")
+      .order("name");
+
+    if (!error && data) {
+      setCounselors(data);
+    }
+    setLoading(false);
+  };
+
+  const handleBookingComplete = () => {
+    setShowBookingForm(false);
+  };
+
+  if (loading) {
+    return <div className="text-center p-4">Loading counselors...</div>;
+  }
+
+  if (showBookingForm) {
+    return (
+      <div className="space-y-4 p-4 pb-20 max-w-2xl mx-auto">
+        <Button 
+          variant="outline" 
+          onClick={() => setShowBookingForm(false)}
+          className="mb-4"
+        >
+          ← Back to Counselors
+        </Button>
+        <CounselorBookingForm 
+          counselors={counselors}
+          onBookingComplete={handleBookingComplete}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 p-4 pb-20 max-w-sm mx-auto">
@@ -70,12 +93,12 @@ const AvailableCounselors = () => {
           <CardContent>
             <div className="grid grid-cols-2 gap-4 text-center">
               <div className="space-y-1">
-                <p className="text-2xl font-bold text-primary">4</p>
+                <p className="text-2xl font-bold text-primary">{counselors.length}</p>
                 <p className="text-xs text-muted-foreground">Total Counselors</p>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl font-bold text-green-600">2</p>
-                <p className="text-xs text-muted-foreground">Available Now</p>
+                <p className="text-2xl font-bold text-green-600">{counselors.length}</p>
+                <p className="text-xs text-muted-foreground">Available</p>
               </div>
             </div>
           </CardContent>
@@ -87,31 +110,33 @@ const AvailableCounselors = () => {
               <div className="flex justify-between items-start">
                 <div className="space-y-1">
                   <CardTitle className="text-lg font-bold">{counselor.name}</CardTitle>
-                  <CardDescription>{counselor.specialty}</CardDescription>
+                  <CardDescription>{counselor.specialization || "General Counseling"}</CardDescription>
                 </div>
                 <div className="flex items-center gap-1">
                   <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span className="text-sm font-medium">{counselor.rating}</span>
+                  <span className="text-sm font-medium">4.8</span>
                 </div>
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex justify-between items-center text-sm">
-                <span className="text-muted-foreground">Experience:</span>
-                <span className="font-medium">{counselor.experience}</span>
+                <span className="text-muted-foreground">Phone:</span>
+                <span className="font-medium">{counselor.phone}</span>
               </div>
               <div className="flex justify-between items-center text-sm">
-                <span className="text-muted-foreground">Status:</span>
-                <span className={`font-medium ${
-                  counselor.availability.includes("Available Now") 
-                    ? "text-green-600" 
-                    : "text-yellow-600"
-                }`}>
-                  {counselor.availability}
-                </span>
+                <span className="text-muted-foreground">Email:</span>
+                <span className="font-medium text-xs">{counselor.email}</span>
+              </div>
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-muted-foreground">Hours:</span>
+                <span className="font-medium text-xs">{counselor.available_hours || "Contact for hours"}</span>
               </div>
               <div className="flex gap-2">
-                <Button size="sm" className="flex-1">
+                <Button 
+                  size="sm" 
+                  className="flex-1"
+                  onClick={() => setShowBookingForm(true)}
+                >
                   <Calendar className="h-4 w-4 mr-1" />
                   Book
                 </Button>
