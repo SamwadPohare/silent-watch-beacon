@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DashboardOverview from "@/components/dashboard/overview/DashboardOverview";
 import DashboardMetrics from "@/components/dashboard/metrics/DashboardMetrics";
 import DashboardReports from "@/components/dashboard/reports/DashboardReports";
+import DashboardMoodTracker from "@/components/dashboard/mood/DashboardMoodTracker";
 import { useDashboardData } from "@/hooks/useDashboardData";
 
 const Dashboard = () => {
@@ -28,6 +29,7 @@ const Dashboard = () => {
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="mood-tracker">Mood Tracker</TabsTrigger>
           <TabsTrigger value="metrics">Detailed Metrics</TabsTrigger>
           <TabsTrigger value="reports">Reports</TabsTrigger>
         </TabsList>
@@ -38,6 +40,10 @@ const Dashboard = () => {
             activityItems={activityItems}
             metricIcons={metricIcons}
           />
+        </TabsContent>
+
+        <TabsContent value="mood-tracker">
+          <DashboardMoodTracker />
         </TabsContent>
         
         <TabsContent value="metrics">
