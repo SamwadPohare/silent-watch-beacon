@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, BookOpen } from "lucide-react";
+import { Activity, Moon } from "lucide-react";
 import MetricLineChart from "@/components/charts/MetricLineChart";
 import MetricBarChart from "@/components/charts/MetricBarChart";
 
@@ -15,7 +15,7 @@ const DashboardMetrics = ({ weeklyTrends, categoryDistribution }: DashboardMetri
       <div>
         <h2 className="text-xl font-semibold mb-1">Detailed Metrics</h2>
         <p className="text-muted-foreground">
-          Comprehensive view of all your wellness data and trends
+          Comprehensive view of your wellness data and trends
         </p>
       </div>
       
@@ -32,7 +32,7 @@ const DashboardMetrics = ({ weeklyTrends, categoryDistribution }: DashboardMetri
         />
       </div>
       
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -41,46 +41,32 @@ const DashboardMetrics = ({ weeklyTrends, categoryDistribution }: DashboardMetri
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">74%</div>
-            <CardDescription className="mt-1">Average of all wellness metrics</CardDescription>
-            <p className="mt-2 text-sm font-medium text-green-600">+3% from last week</p>
+            <div className="text-2xl font-bold">77%</div>
+            <CardDescription className="mt-1">Average of wellness metrics</CardDescription>
+            <p className="mt-2 text-sm font-medium text-green-600">+5% from last week</p>
           </CardContent>
         </Card>
         
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium">Highest Category</CardTitle>
-              <Activity size={18} className="text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Sleep vs Activity</CardTitle>
+              <Moon size={18} className="text-muted-foreground" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">Activity Patterns</div>
-            <CardDescription className="mt-1">Your strongest wellness area</CardDescription>
-            <p className="mt-2 text-sm font-medium text-green-600">85%</p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium">Needs Improvement</CardTitle>
-              <BookOpen size={18} className="text-muted-foreground" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">Academic Engagement</div>
-            <CardDescription className="mt-1">Area requiring attention</CardDescription>
-            <p className="mt-2 text-sm font-medium text-red-600">45%</p>
+            <div className="text-2xl font-bold">Activity Leads</div>
+            <CardDescription className="mt-1">Activity patterns stronger than sleep</CardDescription>
+            <p className="mt-2 text-sm font-medium text-blue-600">17% difference</p>
           </CardContent>
         </Card>
       </div>
       
       <Card>
         <CardHeader>
-          <CardTitle>Metric Correlations</CardTitle>
+          <CardTitle>Wellness Insights</CardTitle>
           <CardDescription>
-            Relationships between different wellness metrics
+            Key findings from your wellness data
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -88,17 +74,17 @@ const DashboardMetrics = ({ weeklyTrends, categoryDistribution }: DashboardMetri
             <div className="space-y-2">
               <p className="text-sm font-medium">Key Findings:</p>
               <ul className="text-sm text-muted-foreground space-y-1.5 pl-4">
-                <li><span className="font-medium">Sleep Quality and Academic Engagement</span> - Strong positive correlation (0.82)</li>
-                <li><span className="font-medium">Screen Time and Sleep Quality</span> - Moderate negative correlation (-0.65)</li>
-                <li><span className="font-medium">Social Engagement and Message Response Time</span> - Strong positive correlation (0.78)</li>
+                <li><span className="font-medium">Activity Patterns</span> - Consistently strong with 85% average score</li>
+                <li><span className="font-medium">Sleep Quality</span> - Shows room for improvement at 68% average</li>
+                <li><span className="font-medium">Weekly Trend</span> - Overall improvement of 5% from last week</li>
               </ul>
             </div>
             
             <div className="pt-2">
-              <p className="text-sm font-medium">Insights:</p>
+              <p className="text-sm font-medium">Recommendations:</p>
               <p className="text-sm text-muted-foreground mt-1">
-                Your data suggests that improving sleep quality could significantly boost academic performance.
-                Reducing late-night screen time may help improve your sleep patterns.
+                Focus on establishing a consistent bedtime routine to improve sleep quality. 
+                Your excellent activity levels are contributing positively to your overall wellness.
               </p>
             </div>
           </div>

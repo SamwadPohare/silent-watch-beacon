@@ -39,15 +39,17 @@ interface Counselor {
 interface CounselorBookingFormProps {
   counselors: Counselor[];
   onBookingComplete: () => void;
+  selectedCounselorId?: string | null;
 }
 
-const CounselorBookingForm = ({ counselors, onBookingComplete }: CounselorBookingFormProps) => {
+const CounselorBookingForm = ({ counselors, onBookingComplete, selectedCounselorId }: CounselorBookingFormProps) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
+      counselor_id: selectedCounselorId || "",
       full_name: "",
       age: 18,
       gender: "",
@@ -112,6 +114,10 @@ const CounselorBookingForm = ({ counselors, onBookingComplete }: CounselorBookin
     }
   };
 
+  const selectedCounselor = selectedCounselorId 
+    ? counselors.find(c => c.id === selectedCounselorId)
+    : null;
+
   return (
     <Card>
       <CardHeader>
@@ -120,7 +126,10 @@ const CounselorBookingForm = ({ counselors, onBookingComplete }: CounselorBookin
           Book a Counselor Session
         </CardTitle>
         <CardDescription>
-          Fill out this form to request a counseling session. We'll contact you to confirm the appointment.
+          {selectedCounselor 
+            ? `Book a session with ${selectedCounselor.name}` 
+            : "Fill out this form to request a counseling session. We'll contact you to confirm the appointment."
+          }
         </CardDescription>
       </CardHeader>
       <CardContent>
