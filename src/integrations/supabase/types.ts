@@ -48,6 +48,71 @@ export type Database = {
         }
         Relationships: []
       }
+      counselor_bookings: {
+        Row: {
+          address: string
+          age: number
+          contact_number: string
+          counselor_id: string
+          created_at: string
+          email_address: string
+          full_name: string
+          gender: string
+          id: string
+          occupation: string
+          preferred_date: string | null
+          preferred_time: string | null
+          reason_for_booking: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address: string
+          age: number
+          contact_number: string
+          counselor_id: string
+          created_at?: string
+          email_address: string
+          full_name: string
+          gender: string
+          id?: string
+          occupation: string
+          preferred_date?: string | null
+          preferred_time?: string | null
+          reason_for_booking?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string
+          age?: number
+          contact_number?: string
+          counselor_id?: string
+          created_at?: string
+          email_address?: string
+          full_name?: string
+          gender?: string
+          id?: string
+          occupation?: string
+          preferred_date?: string | null
+          preferred_time?: string | null
+          reason_for_booking?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "counselor_bookings_counselor_id_fkey"
+            columns: ["counselor_id"]
+            isOneToOne: false
+            referencedRelation: "counselors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       counselors: {
         Row: {
           available_hours: string | null
