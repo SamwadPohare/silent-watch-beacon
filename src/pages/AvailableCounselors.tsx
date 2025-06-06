@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Phone, MessageSquare, Calendar, Star, Award, BookOpen } from "lucide-react";
+import { Users, Phone, MessageSquare, Calendar, Star, Award, BookOpen, MapPin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import CounselorBookingForm from "@/components/counselors/CounselorBookingForm";
 
@@ -13,8 +13,7 @@ interface Counselor {
   phone: string;
   email: string;
   available_hours: string | null;
-  experience?: string;
-  expertise?: string[];
+  location: string | null;
 }
 
 const AvailableCounselors = () => {
@@ -22,26 +21,6 @@ const AvailableCounselors = () => {
   const [loading, setLoading] = useState(true);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [selectedCounselor, setSelectedCounselor] = useState<string | null>(null);
-
-  // Mock data to enhance counselor information
-  const counselorEnhancements = {
-    "Dr. Sarah Johnson": {
-      experience: "8 years",
-      expertise: ["Anxiety", "Depression", "Stress Management"]
-    },
-    "Dr. Michael Chen": {
-      experience: "12 years", 
-      expertise: ["Academic Counseling", "Career Guidance", "Life Coaching"]
-    },
-    "Dr. Emily Rodriguez": {
-      experience: "6 years",
-      expertise: ["Relationship Counseling", "Family Therapy", "Communication Skills"]
-    },
-    "Dr. David Kim": {
-      experience: "10 years",
-      expertise: ["Trauma Therapy", "PTSD", "Crisis Intervention"]
-    }
-  };
 
   useEffect(() => {
     fetchCounselors();
@@ -54,13 +33,7 @@ const AvailableCounselors = () => {
       .order("name");
 
     if (!error && data) {
-      // Enhance counselor data with experience and expertise
-      const enhancedCounselors = data.map(counselor => ({
-        ...counselor,
-        experience: counselorEnhancements[counselor.name as keyof typeof counselorEnhancements]?.experience || "5 years",
-        expertise: counselorEnhancements[counselor.name as keyof typeof counselorEnhancements]?.expertise || ["General Counseling"]
-      }));
-      setCounselors(enhancedCounselors);
+      setCounselors(data);
     }
     setLoading(false);
   };
@@ -114,7 +87,7 @@ const AvailableCounselors = () => {
           <CardContent className="space-y-3">
             <Button className="w-full" variant="destructive">
               <Phone className="h-4 w-4 mr-2" />
-              Emergency Helpline
+              Emergency Helpline: 1075
             </Button>
             <p className="text-xs text-center text-muted-foreground">
               Call immediately if you're in crisis
@@ -149,25 +122,18 @@ const AvailableCounselors = () => {
                   <CardDescription className="text-sm">{counselor.specialization || "General Counseling"}</CardDescription>
                   
                   <div className="flex items-center gap-2 text-sm">
-                    <Award className="h-4 w-4 text-blue-500" />
-                    <span className="font-medium text-blue-600">{counselor.experience} experience</span>
+                    <MapPin className="h-4 w-4 text-blue-500" />
+                    <span className="font-medium text-blue-600">{counselor.location || "India"}</span>
                   </div>
                   
                   <div className="space-y-1">
                     <div className="flex items-center gap-1">
                       <BookOpen className="h-3 w-3 text-green-500" />
-                      <span className="text-xs font-medium text-green-600">Expertise:</span>
+                      <span className="text-xs font-medium text-green-600">Specialization:</span>
                     </div>
-                    <div className="flex flex-wrap gap-1">
-                      {counselor.expertise?.map((skill, index) => (
-                        <span 
-                          key={index}
-                          className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
+                    <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                      {counselor.specialization || "General Counseling"}
+                    </span>
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
@@ -189,6 +155,10 @@ const AvailableCounselors = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Hours:</span>
                   <span className="font-medium text-xs">{counselor.available_hours || "Mon-Fri 9AM-5PM"}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Location:</span>
+                  <span className="font-medium text-xs">{counselor.location || "India"}</span>
                 </div>
               </div>
               

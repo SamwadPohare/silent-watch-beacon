@@ -29,7 +29,7 @@ export const useDashboardData = () => {
     {
       id: "4",
       title: "Available Counselors",
-      value: 4,
+      value: 5,
       description: "Total counselors available",
       status: "normal"
     }
@@ -93,15 +93,15 @@ export const useDashboardData = () => {
       id: "report-1",
       title: "Weekly Wellness Summary",
       date: "December 30 - January 5, 2025",
-      description: "Comprehensive overview of your wellness patterns including sleep and activity data",
+      description: "Comprehensive overview of your wellness patterns including sleep and activity data from the past month",
       category: "Wellness",
       status: "available"
     },
     {
       id: "report-2",
       title: "Sleep Pattern Analysis",
-      date: "December 30 - January 5, 2025",
-      description: "Detailed analysis of your sleep quality, duration, and consistency patterns",
+      date: "December 30 - January 5, 2025", 
+      description: "Monthly analysis of your sleep quality, duration, and consistency patterns with improvement recommendations",
       category: "Sleep",
       status: "available"
     },
@@ -109,35 +109,59 @@ export const useDashboardData = () => {
       id: "report-3",
       title: "Activity Trend Report",
       date: "December 30 - January 5, 2025",
-      description: "Weekly analysis of your physical activity levels and movement patterns",
-      category: "Activity",
+      description: "Monthly analysis of your physical activity levels, movement patterns, and fitness progress",
+      category: "Activity", 
+      status: "available"
+    },
+    {
+      id: "report-4",
+      title: "Academic Performance Report",
+      date: "December 2024",
+      description: "Monthly report on academic engagement, attendance patterns, and performance indicators",
+      category: "Academic",
+      status: "available"
+    },
+    {
+      id: "report-5",
+      title: "Social Engagement Analysis",
+      date: "December 2024", 
+      description: "Analysis of social interactions, peer engagement, and community participation from last month",
+      category: "Social",
       status: "available"
     }
   ];
 
   const monthlyReports = [
     {
-      id: "report-4",
+      id: "report-6",
       title: "Monthly Wellness Analytics",
       date: "December 2024",
-      description: "Complete monthly analysis of wellness patterns including sleep quality and activity trends",
+      description: "Complete monthly analysis of wellness patterns including sleep quality, activity trends, and mood patterns",
       category: "Wellness",
       status: "available"
     },
     {
-      id: "report-5",
-      title: "Sleep Quality Assessment",
+      id: "report-7",
+      title: "Counseling Session Impact Report",
       date: "December 2024",
-      description: "Comprehensive monthly sleep analysis with recommendations for improvement",
-      category: "Sleep",
+      description: "Analysis of counseling sessions attended, progress tracking, and therapeutic outcomes from last month",
+      category: "Counseling",
       status: "available"
     },
     {
-      id: "report-6",
-      title: "Physical Activity Summary",
+      id: "report-8",
+      title: "Mental Health Progress Report",
       date: "December 2024",
-      description: "Monthly overview of physical activity patterns and fitness progress",
-      category: "Activity",
+      description: "Comprehensive monthly overview of mental health indicators, mood trends, and wellness improvements",
+      category: "Mental Health",
+      status: "available"
+    },
+    {
+      id: "report-9",
+      title: "Leave Application Trends",
+      date: "December 2024",
+      description: "Monthly analysis of leave applications, absence patterns, and wellness correlation data",
+      category: "Leave Management",
       status: "available"
     }
   ];

@@ -9,6 +9,56 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      booking_confirmations: {
+        Row: {
+          booking_id: string | null
+          confirmation_code: string
+          confirmed_date: string
+          confirmed_time: string
+          counselor_email: string
+          counselor_name: string
+          counselor_phone: string
+          created_at: string
+          id: string
+          status: string
+          student_name: string
+        }
+        Insert: {
+          booking_id?: string | null
+          confirmation_code?: string
+          confirmed_date: string
+          confirmed_time: string
+          counselor_email: string
+          counselor_name: string
+          counselor_phone: string
+          created_at?: string
+          id?: string
+          status?: string
+          student_name: string
+        }
+        Update: {
+          booking_id?: string | null
+          confirmation_code?: string
+          confirmed_date?: string
+          confirmed_time?: string
+          counselor_email?: string
+          counselor_name?: string
+          counselor_phone?: string
+          created_at?: string
+          id?: string
+          status?: string
+          student_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_confirmations_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "counselor_bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contacts: {
         Row: {
           created_at: string | null
@@ -119,6 +169,7 @@ export type Database = {
           created_at: string | null
           email: string
           id: string
+          location: string | null
           name: string
           phone: string
           specialization: string | null
@@ -129,6 +180,7 @@ export type Database = {
           created_at?: string | null
           email: string
           id?: string
+          location?: string | null
           name: string
           phone: string
           specialization?: string | null
@@ -139,6 +191,7 @@ export type Database = {
           created_at?: string | null
           email?: string
           id?: string
+          location?: string | null
           name?: string
           phone?: string
           specialization?: string | null

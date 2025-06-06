@@ -7,9 +7,9 @@ import { useNavigate } from "react-router-dom";
 const CounselorOverviewCard = () => {
   const navigate = useNavigate();
   const counselors = [
-    { name: "Dr. Priya Sharma", phone: "+91 98765 43210" },
-    { name: "Dr. Rajesh Kumar", phone: "+91 87654 32109" },
-    { name: "Dr. Meera Patel", phone: "+91 76543 21098" }
+    { name: "Dr. Meera Shah", phone: "+91 98765 43210", location: "Mumbai" },
+    { name: "Dr. Arjun Iyer", phone: "+91 98220 11234", location: "Chennai" },
+    { name: "Ms. Ananya Roy", phone: "+91 99300 44556", location: "Kolkata" }
   ];
 
   return (
@@ -21,10 +21,13 @@ const CounselorOverviewCard = () => {
       <CardContent>
         <div className="space-y-2">
           {counselors.map((counselor, index) => (
-            <div key={index} className="flex items-center text-sm">
-              <Phone className="h-3 w-3 mr-2 text-muted-foreground" />
-              <span className="text-muted-foreground">
-                {counselor.name}: {counselor.phone}
+            <div key={index} className="flex flex-col text-sm">
+              <div className="flex items-center">
+                <Phone className="h-3 w-3 mr-2 text-muted-foreground" />
+                <span className="font-medium">{counselor.name}</span>
+              </div>
+              <span className="text-muted-foreground text-xs ml-5">
+                {counselor.phone} • {counselor.location}
               </span>
             </div>
           ))}

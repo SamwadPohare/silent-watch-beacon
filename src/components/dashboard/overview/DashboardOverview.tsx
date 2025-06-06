@@ -1,4 +1,5 @@
-import { Activity, Calendar } from "lucide-react";
+
+import { Activity } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { WellnessMetric, TimelineItem } from "@/types";
 import MetricsCard from "@/components/dashboard/MetricsCard";
@@ -43,11 +44,11 @@ const DashboardOverview = ({ metrics, activityItems, metricIcons }: DashboardOve
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg font-medium">Weekly Summary</CardTitle>
-                <Calendar size={18} className="text-muted-foreground" />
+                <CardTitle className="text-lg font-medium">Mental Health Insights</CardTitle>
+                <Activity size={18} className="text-muted-foreground" />
               </div>
               <CardDescription>
-                Your wellness overview for the past week
+                Key insights about your mental wellness
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -55,16 +56,17 @@ const DashboardOverview = ({ metrics, activityItems, metricIcons }: DashboardOve
                 <div className="space-y-2">
                   <p className="text-sm font-medium">Key Insights:</p>
                   <ul className="text-sm text-muted-foreground space-y-1.5 pl-4">
-                    <li>Academic engagement has decreased by 15%</li>
-                    <li>Sleep patterns show irregular hours</li>
-                    <li>Social interactions have remained stable</li>
+                    <li>Activity levels are consistently good at 85%</li>
+                    <li>Sleep quality needs improvement at 68%</li>
+                    <li>3 leave applications submitted this month</li>
+                    <li>5 qualified counselors available for support</li>
                   </ul>
                 </div>
                 
                 <div className="pt-2">
                   <p className="text-sm font-medium">Recommendations:</p>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Consider establishing a consistent sleep schedule and reach out to your academic advisor for support with course engagement.
+                    Consider booking a session with one of our counselors to discuss sleep improvement strategies and stress management techniques.
                   </p>
                 </div>
               </div>
