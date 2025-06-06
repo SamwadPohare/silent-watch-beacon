@@ -1,56 +1,30 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, TrendingUp } from "lucide-react";
+import { Activity, TrendingUp, Loader } from "lucide-react";
+import { useActivityPatterns } from "@/hooks/useActivityPatterns";
 
 const ActivityPatterns = () => {
-  // Enhanced mock data for activity history with more detailed information
-  const activityHistory = [
-    {
-      id: 1,
-      date: "2025-01-06",
-      activityLevel: 89,
-      duration: "7.2 hours",
-      type: "Mixed Activities",
-      status: "Excellent",
-      details: "Walking: 8,500 steps, Gym: 45 mins, Light activities: 6.5 hours"
-    },
-    {
-      id: 2,
-      date: "2025-01-05",
-      activityLevel: 76,
-      duration: "5.8 hours",
-      type: "Physical Exercise",
-      status: "Good",
-      details: "Jogging: 30 mins, Yoga: 20 mins, Daily activities: 5.2 hours"
-    },
-    {
-      id: 3,
-      date: "2025-01-04",
-      activityLevel: 82,
-      duration: "6.4 hours",
-      type: "Outdoor Activities",
-      status: "Good",
-      details: "Cycling: 40 mins, Walking: 6,200 steps, Gardening: 25 mins"
-    },
-    {
-      id: 4,
-      date: "2025-01-03",
-      activityLevel: 71,
-      duration: "4.9 hours",
-      type: "Light Activities",
-      status: "Normal",
-      details: "House cleaning: 30 mins, Walking: 4,800 steps, Stretching: 15 mins"
-    },
-    {
-      id: 5,
-      date: "2025-01-02",
-      activityLevel: 95,
-      duration: "8.1 hours",
-      type: "High Intensity",
-      status: "Excellent",
-      details: "Gym workout: 60 mins, Swimming: 30 mins, Active day: 7 hours"
-    }
-  ];
+  const { activityHistory, currentScore, weeklyAverage, averageSteps, loading, error } = useActivityPatterns();
+
+  if (loading) {
+    return (
+      <div className="space-y-4 p-4 pb-20 max-w-sm mx-auto">
+        <div className="flex items-center justify-center py-8">
+          <Loader className="h-6 w-6 animate-spin" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-4 p-4 pb-20 max-w-sm mx-auto">
+        <div className="text-center py-8">
+          <p className="text-red-600">Error loading activity patterns: {error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 p-4 pb-20 max-w-sm mx-auto">
@@ -69,7 +43,7 @@ const ActivityPatterns = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <span className="text-4xl font-bold text-primary">85%</span>
+              <span className="text-4xl font-bold text-primary">{currentScore}%</span>
               <CardDescription className="text-sm">
                 Daily activity and movement
               </CardDescription>
@@ -87,7 +61,7 @@ const ActivityPatterns = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <span className="text-4xl font-bold">82%</span>
+              <span className="text-4xl font-bold">{weeklyAverage}%</span>
               <CardDescription className="text-sm">
                 Past 7 days activity level
               </CardDescription>
@@ -105,7 +79,7 @@ const ActivityPatterns = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <span className="text-4xl font-bold">7,250</span>
+              <span className="text-4xl font-bold">{averageSteps.toLocaleString()}</span>
               <CardDescription className="text-sm">
                 Average daily steps this week
               </CardDescription>
@@ -128,7 +102,7 @@ const ActivityPatterns = () => {
                   <div className="flex justify-between items-start mb-2">
                     <div className="space-y-1">
                       <p className="font-medium text-sm">{activity.date}</p>
-                      <p className="text-xs text-muted-foreground">{activity.type}</p>
+                      <p className="text-xs text-muted-foreground">{activity.activity_type}</p>
                     </div>
                     <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
                       activity.status === 'Excellent' 
@@ -141,8 +115,8 @@ const ActivityPatterns = () => {
                     </span>
                   </div>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-lg font-bold">{activity.activityLevel}%</span>
-                    <span className="text-sm text-muted-foreground">{activity.duration}</span>
+                    <span className="text-lg font-bold">{activity.activity_level}%</span>
+                    <span className="text-sm text-muted-foreground">{activity.duration_hours} hours</span>
                   </div>
                   <p className="text-xs text-muted-foreground leading-relaxed">
                     {activity.details}

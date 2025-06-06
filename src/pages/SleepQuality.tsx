@@ -1,71 +1,30 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, Moon, Clock, TrendingUp } from "lucide-react";
+import { Activity, Moon, Clock, TrendingUp, Loader } from "lucide-react";
+import { useSleepQuality } from "@/hooks/useSleepQuality";
 
 const SleepQuality = () => {
-  // Enhanced mock data for sleep history
-  const sleepHistory = [
-    {
-      id: 1,
-      date: "2025-01-06",
-      sleepScore: 72,
-      duration: "7h 45m",
-      bedtime: "10:30 PM",
-      wakeTime: "6:15 AM",
-      quality: "Good",
-      deepSleep: "1h 52m",
-      remSleep: "1h 28m",
-      interruptions: 2
-    },
-    {
-      id: 2,
-      date: "2025-01-05",
-      sleepScore: 65,
-      duration: "6h 20m",
-      bedtime: "11:45 PM",
-      wakeTime: "6:05 AM",
-      quality: "Fair",
-      deepSleep: "1h 15m",
-      remSleep: "1h 05m",
-      interruptions: 4
-    },
-    {
-      id: 3,
-      date: "2025-01-04",
-      sleepScore: 84,
-      duration: "8h 10m",
-      bedtime: "10:00 PM",
-      wakeTime: "6:10 AM",
-      quality: "Excellent",
-      deepSleep: "2h 18m",
-      remSleep: "1h 45m",
-      interruptions: 1
-    },
-    {
-      id: 4,
-      date: "2025-01-03",
-      sleepScore: 58,
-      duration: "5h 55m",
-      bedtime: "12:20 AM",
-      wakeTime: "6:15 AM",
-      quality: "Poor",
-      deepSleep: "0h 58m",
-      remSleep: "0h 52m",
-      interruptions: 6
-    },
-    {
-      id: 5,
-      date: "2025-01-02",
-      sleepScore: 78,
-      duration: "7h 30m",
-      bedtime: "10:15 PM",
-      wakeTime: "5:45 AM",
-      quality: "Good",
-      deepSleep: "1h 58m",
-      remSleep: "1h 35m",
-      interruptions: 2
-    }
-  ];
+  const { sleepHistory, currentScore, averageDuration, sleepEfficiency, loading, error } = useSleepQuality();
+
+  if (loading) {
+    return (
+      <div className="space-y-4 p-4 pb-20 max-w-sm mx-auto">
+        <div className="flex items-center justify-center py-8">
+          <Loader className="h-6 w-6 animate-spin" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-4 p-4 pb-20 max-w-sm mx-auto">
+        <div className="text-center py-8">
+          <p className="text-red-600">Error loading sleep quality: {error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 p-4 pb-20 max-w-sm mx-auto">
@@ -84,7 +43,7 @@ const SleepQuality = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <span className="text-4xl font-bold text-primary">68%</span>
+              <span className="text-4xl font-bold text-primary">{currentScore}%</span>
               <CardDescription className="text-sm">
                 Sleep duration and patterns
               </CardDescription>
@@ -102,7 +61,7 @@ const SleepQuality = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <span className="text-4xl font-bold">7h 6m</span>
+              <span className="text-4xl font-bold">{averageDuration}</span>
               <CardDescription className="text-sm">
                 Average sleep per night (last 7 days)
               </CardDescription>
@@ -120,7 +79,7 @@ const SleepQuality = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <span className="text-4xl font-bold">71%</span>
+              <span className="text-4xl font-bold">{sleepEfficiency}%</span>
               <CardDescription className="text-sm">
                 Time asleep vs. time in bed
               </CardDescription>
@@ -144,7 +103,7 @@ const SleepQuality = () => {
                     <div className="space-y-1">
                       <p className="font-medium text-sm">{sleep.date}</p>
                       <p className="text-xs text-muted-foreground">
-                        {sleep.bedtime} → {sleep.wakeTime}
+                        {sleep.bedtime} → {sleep.wake_time}
                       </p>
                     </div>
                     <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
@@ -160,15 +119,15 @@ const SleepQuality = () => {
                     </span>
                   </div>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-lg font-bold">{sleep.sleepScore}%</span>
-                    <span className="text-sm text-muted-foreground">{sleep.duration}</span>
+                    <span className="text-lg font-bold">{sleep.sleep_score}%</span>
+                    <span className="text-sm text-muted-foreground">{sleep.duration_hours}h</span>
                   </div>
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <div>
-                      <span className="text-muted-foreground">Deep:</span> {sleep.deepSleep}
+                      <span className="text-muted-foreground">Deep:</span> {sleep.deep_sleep_hours}h
                     </div>
                     <div>
-                      <span className="text-muted-foreground">REM:</span> {sleep.remSleep}
+                      <span className="text-muted-foreground">REM:</span> {sleep.rem_sleep_hours}h
                     </div>
                     <div className="col-span-2">
                       <span className="text-muted-foreground">Interruptions:</span> {sleep.interruptions}

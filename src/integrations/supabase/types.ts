@@ -9,6 +9,45 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      activity_patterns: {
+        Row: {
+          activity_level: number
+          activity_type: string
+          created_at: string
+          date: string
+          details: string | null
+          duration_hours: number
+          id: string
+          status: string
+          steps: number | null
+          user_id: string | null
+        }
+        Insert: {
+          activity_level: number
+          activity_type: string
+          created_at?: string
+          date: string
+          details?: string | null
+          duration_hours: number
+          id?: string
+          status: string
+          steps?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          activity_level?: number
+          activity_type?: string
+          created_at?: string
+          date?: string
+          details?: string | null
+          duration_hours?: number
+          id?: string
+          status?: string
+          steps?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       booking_confirmations: {
         Row: {
           booking_id: string | null
@@ -306,6 +345,51 @@ export type Database = {
           id?: string
           last_name?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      sleep_quality: {
+        Row: {
+          bedtime: string
+          created_at: string
+          date: string
+          deep_sleep_hours: number | null
+          duration_hours: number
+          id: string
+          interruptions: number | null
+          quality: string
+          rem_sleep_hours: number | null
+          sleep_score: number
+          user_id: string | null
+          wake_time: string
+        }
+        Insert: {
+          bedtime: string
+          created_at?: string
+          date: string
+          deep_sleep_hours?: number | null
+          duration_hours: number
+          id?: string
+          interruptions?: number | null
+          quality: string
+          rem_sleep_hours?: number | null
+          sleep_score: number
+          user_id?: string | null
+          wake_time: string
+        }
+        Update: {
+          bedtime?: string
+          created_at?: string
+          date?: string
+          deep_sleep_hours?: number | null
+          duration_hours?: number
+          id?: string
+          interruptions?: number | null
+          quality?: string
+          rem_sleep_hours?: number | null
+          sleep_score?: number
+          user_id?: string | null
+          wake_time?: string
         }
         Relationships: []
       }
