@@ -2,6 +2,7 @@
 import { FileText, FileChartColumn, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import WellnessReports from "./WellnessReports";
 
 interface Report {
   id: string;
@@ -20,80 +21,7 @@ interface DashboardReportsProps {
 const DashboardReports = ({ weeklyReports, monthlyReports }: DashboardReportsProps) => {
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-semibold mb-1">Wellness Reports</h2>
-        <p className="text-muted-foreground">
-          Generated reports and insights based on your mood tracking and wellness data
-        </p>
-      </div>
-      
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>Weekly Mood Reports</CardTitle>
-            <FileText size={18} className="text-muted-foreground" />
-          </div>
-          <CardDescription>
-            Weekly summaries of your mood patterns and trends
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {weeklyReports.map(report => (
-              <div key={report.id} className="border rounded-lg p-4 hover:bg-accent/50 transition-colors cursor-pointer">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-medium">{report.title}</h3>
-                    <p className="text-sm text-muted-foreground">{report.date}</p>
-                    <p className="text-sm mt-1">{report.description}</p>
-                  </div>
-                  <div className="bg-primary/10 text-primary rounded px-2 py-1 text-xs font-medium">
-                    {report.category}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-      
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>Monthly Mood Reports</CardTitle>
-            <FileChartColumn size={18} className="text-muted-foreground" />
-          </div>
-          <CardDescription>
-            Comprehensive monthly analysis of your emotional wellness journey
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {monthlyReports.map(report => (
-              <div key={report.id} className="border rounded-lg p-4 hover:bg-accent/50 transition-colors cursor-pointer">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-medium">{report.title}</h3>
-                    <p className="text-sm text-muted-foreground">{report.date}</p>
-                    <p className="text-sm mt-1">{report.description}</p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <Badge variant="outline" className="text-xs">
-                        📊 Mood Trends
-                      </Badge>
-                      <Badge variant="outline" className="text-xs">
-                        🎤 Voice Analysis
-                      </Badge>
-                    </div>
-                  </div>
-                  <div className="bg-primary/10 text-primary rounded px-2 py-1 text-xs font-medium">
-                    {report.category}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      <WellnessReports />
       
       <Card>
         <CardHeader>

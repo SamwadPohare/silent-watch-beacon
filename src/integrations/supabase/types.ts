@@ -434,6 +434,90 @@ export type Database = {
           },
         ]
       }
+      voice_notes: {
+        Row: {
+          analyzed_mood: string | null
+          audio_url: string
+          created_at: string
+          duration_seconds: number | null
+          id: string
+          transcription: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          analyzed_mood?: string | null
+          audio_url: string
+          created_at?: string
+          duration_seconds?: number | null
+          id?: string
+          transcription?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          analyzed_mood?: string | null
+          audio_url?: string
+          created_at?: string
+          duration_seconds?: number | null
+          id?: string
+          transcription?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      wellness_reports: {
+        Row: {
+          activity_average: number | null
+          content: string
+          created_at: string
+          end_date: string
+          id: string
+          mood_average: number | null
+          report_type: string
+          sleep_average: number | null
+          start_date: string
+          support_alerts_sent: number | null
+          title: string
+          total_mood_entries: number | null
+          total_voice_notes: number | null
+          user_id: string
+        }
+        Insert: {
+          activity_average?: number | null
+          content: string
+          created_at?: string
+          end_date: string
+          id?: string
+          mood_average?: number | null
+          report_type: string
+          sleep_average?: number | null
+          start_date: string
+          support_alerts_sent?: number | null
+          title: string
+          total_mood_entries?: number | null
+          total_voice_notes?: number | null
+          user_id: string
+        }
+        Update: {
+          activity_average?: number | null
+          content?: string
+          created_at?: string
+          end_date?: string
+          id?: string
+          mood_average?: number | null
+          report_type?: string
+          sleep_average?: number | null
+          start_date?: string
+          support_alerts_sent?: number | null
+          title?: string
+          total_mood_entries?: number | null
+          total_voice_notes?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

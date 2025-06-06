@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Mic, MicOff, Save, Heart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useVoiceNotes } from "@/hooks/useVoiceNotes";
 
 const moodEmojis = [
   { emoji: "😢", text: "Very Sad", score: 1 },
@@ -25,6 +26,7 @@ const DashboardMoodTracker = () => {
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [recentMoods, setRecentMoods] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const { saveVoiceNote } = useVoiceNotes();
 
   useEffect(() => {
     if (user) {
@@ -111,25 +113,13 @@ const DashboardMoodTracker = () => {
       if (moodError) throw moodError;
 
       // Upload voice recording if exists
-      if (audioBlob && moodLog) {
-        const fileName = `${user.id}/${moodLog.id}-${Date.now()}.webm`;
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from("voice-recordings")
-          .upload(fileName, audioBlob);
-
-        if (uploadError) throw uploadError;
-
-        // Save voice log entry
-        const { error: voiceError } = await supabase
-          .from("voice_logs")
-          .insert({
-            user_id: user.id,
-            mood_log_id: moodLog.id,
-            audio_url: uploadData.path,
-            duration_seconds: 0,
-          });
-
-        if (voiceError) throw voiceError;
+      if (audioBlob) {
+        // Use our voice notes hook to save the recording
+        const voiceNote = await saveVoiceNote(audioBlob);
+        
+        if (!voiceNote) {
+          console.warn("Voice note failed to save");
+        }
       }
 
       // If mood is low (score 1 or 2), trigger email notifications

@@ -6,6 +6,7 @@ import MetricsCard from "@/components/dashboard/MetricsCard";
 import ActivityTimeline from "@/components/dashboard/ActivityTimeline";
 import HelplineNumbers from "@/components/dashboard/HelplineNumbers";
 import SelfCareTips from "@/components/dashboard/SelfCareTips";
+import MentalWellnessSection from "@/components/dashboard/MentalWellnessSection";
 import { LucideIcon } from "lucide-react";
 
 interface DashboardOverviewProps {
@@ -41,6 +42,7 @@ const DashboardOverview = ({ metrics, activityItems, metricIcons }: DashboardOve
         
         <div className="space-y-4">
           <HelplineNumbers />
+          <MentalWellnessSection />
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
