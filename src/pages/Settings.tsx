@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,14 +7,9 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
-import { useToast } from "@/hooks/use-toast";
-import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { UserSettings } from "@/types";
 
 const Settings = () => {
-  const { toast } = useToast();
-  const { preferences, loading, updatePreferences } = useUserPreferences();
-  
   const [settings, setSettings] = useState<UserSettings>({
     monitoringEnabled: true,
     dataSharingEnabled: true,
@@ -23,18 +18,7 @@ const Settings = () => {
     autoReportGeneration: false
   });
 
-  const [screenTimeLimit, setScreenTimeLimit] = useState(8.0);
-  const [sleepHoursRequired, setSleepHoursRequired] = useState(8.0);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [isDirty, setIsDirty] = useState(false);
-
-  useEffect(() => {
-    if (!loading && preferences) {
-      setScreenTimeLimit(preferences.screen_time_limit_hours);
-      setSleepHoursRequired(preferences.sleep_hours_required);
-      setNotificationsEnabled(preferences.notifications_enabled);
-    }
-  }, [preferences, loading]);
 
   const handleToggleChange = (key: keyof UserSettings) => (value: boolean) => {
     setSettings({
@@ -52,50 +36,10 @@ const Settings = () => {
     setIsDirty(true);
   };
 
-  const handleScreenTimeLimitChange = (value: string) => {
-    const numValue = parseFloat(value);
-    if (!isNaN(numValue) && numValue > 0 && numValue <= 24) {
-      setScreenTimeLimit(numValue);
-      setIsDirty(true);
-    }
-  };
-
-  const handleSleepHoursChange = (value: string) => {
-    const numValue = parseFloat(value);
-    if (!isNaN(numValue) && numValue > 0 && numValue <= 12) {
-      setSleepHoursRequired(numValue);
-      setIsDirty(true);
-    }
-  };
-
-  const handleNotificationToggle = (value: boolean) => {
-    setNotificationsEnabled(value);
-    setIsDirty(true);
-  };
-
-  const handleSaveChanges = async () => {
+  const handleSaveChanges = () => {
+    // Here you would typically save the settings to a backend
     console.log("Saving settings:", settings);
-    
-    // Save user preferences
-    const result = await updatePreferences({
-      screen_time_limit_hours: screenTimeLimit,
-      sleep_hours_required: sleepHoursRequired,
-      notifications_enabled: notificationsEnabled
-    });
-
-    if (result) {
-      toast({
-        title: "Settings Saved",
-        description: "Your preferences have been updated successfully."
-      });
-      setIsDirty(false);
-    } else {
-      toast({
-        title: "Error",
-        description: "Failed to save settings. Please try again.",
-        variant: "destructive"
-      });
-    }
+    setIsDirty(false);
   };
 
   return (
@@ -108,65 +52,6 @@ const Settings = () => {
       </div>
 
       <div className="grid gap-6">
-        {/* Wellness Preferences */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Wellness Preferences</CardTitle>
-            <CardDescription>
-              Configure your personal wellness goals and limits.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-3">
-              <Label htmlFor="screenTimeLimit">Daily Screen Time Limit (hours)</Label>
-              <Input
-                id="screenTimeLimit"
-                type="number"
-                min="1"
-                max="24"
-                step="0.5"
-                value={screenTimeLimit}
-                onChange={(e) => handleScreenTimeLimitChange(e.target.value)}
-                placeholder="8.0"
-              />
-              <p className="text-sm text-muted-foreground">
-                Set your daily screen time goal. You'll receive notifications when approaching this limit.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <Label htmlFor="sleepHours">Required Sleep Hours</Label>
-              <Input
-                id="sleepHours"
-                type="number"
-                min="4"
-                max="12"
-                step="0.5"
-                value={sleepHoursRequired}
-                onChange={(e) => handleSleepHoursChange(e.target.value)}
-                placeholder="8.0"
-              />
-              <p className="text-sm text-muted-foreground">
-                Set your ideal sleep duration. This will be used to generate personalized schedules.
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label htmlFor="wellnessNotifications">Wellness Notifications</Label>
-                <p className="text-sm text-muted-foreground">
-                  Receive notifications about screen time limits and wellness reminders.
-                </p>
-              </div>
-              <Switch
-                id="wellnessNotifications"
-                checked={notificationsEnabled}
-                onCheckedChange={handleNotificationToggle}
-              />
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Monitoring Settings */}
         <Card>
           <CardHeader>

@@ -1,46 +1,61 @@
 
-import { ExternalLink } from "lucide-react";
+import { Phone, PhoneCall, HelpCircle } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const HelplineNumbers = () => {
   const helplines = [
-    { name: "National Suicide Prevention Lifeline", number: "988", country: "US" },
-    { name: "Crisis Text Line", number: "Text HOME to 741741", country: "US" },
-    { name: "NIMHANS Mental Health Helpline", number: "080-46110007", country: "India" },
-    { name: "iCall Helpline", number: "022-25521111", country: "India" },
-    { name: "Vandrevala Foundation", number: "1860-2662-345", country: "India" },
-    { name: "AASRA", number: "91-9820466726", country: "India" },
-    { name: "Sneha India Foundation", number: "044-24640050", country: "India" },
-    { name: "Lifeline Bangladesh", number: "16123", country: "Bangladesh" },
-    { name: "Sumaitri", number: "011-23389090", country: "India" },
-    { name: "Pakistan National Mental Health Helpline", number: "+92 111 47283", country: "Pakistan" },
-    { name: "Sri Lanka Sumithrayo", number: "+94 11 269 6666", country: "Sri Lanka" },
-    { name: "Blue Cross Nepal", number: "+977 1-4228525", country: "Nepal" }
+    {
+      title: "National Suicide Prevention",
+      number: "9152987821",
+      description: "AASRA - 24/7 Suicide Prevention Helpline",
+      icon: <PhoneCall className="h-4 w-4 text-primary" />
+    },
+    {
+      title: "Mental Health Helpline",
+      number: "9820466726",
+      description: "Connecting Trust - Mental Health Support",
+      icon: <Phone className="h-4 w-4 text-primary" />
+    },
+    {
+      title: "Student Counseling Services",
+      number: "011-26853846",
+      description: "Vandrevala Foundation - Free 24/7 Counseling",
+      icon: <HelpCircle className="h-4 w-4 text-primary" />
+    }
   ];
 
+  const handleCall = (number: string) => {
+    window.open(`tel:${number.replace(/[^0-9]/g, '')}`);
+  };
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">Emergency Helplines</CardTitle>
-        <CardDescription>
-          Help is available 24/7 if you need immediate support
-        </CardDescription>
+    <Card className="hover:shadow-md transition-all">
+      <CardHeader className="pb-3">
+        <div className="flex items-center space-x-2">
+          <Phone className="h-5 w-5 text-primary" />
+          <CardTitle className="text-lg font-medium">Emergency Helplines</CardTitle>
+        </div>
+        <CardDescription>24/7 Support Available</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-2">
+        <div className="space-y-4">
           {helplines.map((helpline, index) => (
-            <div key={index} className="flex justify-between items-center py-2 border-b last:border-b-0">
-              <div>
-                <p className="font-medium text-sm">{helpline.name}</p>
-                <p className="text-xs text-muted-foreground">{helpline.country}</p>
+            <div key={index} className="flex items-start space-x-3">
+              <div className="mt-1">{helpline.icon}</div>
+              <div className="flex-1 space-y-1">
+                <h4 className="font-medium">{helpline.title}</h4>
+                <p className="text-base font-semibold text-primary">{helpline.number}</p>
+                <p className="text-xs text-muted-foreground">{helpline.description}</p>
               </div>
-              <a 
-                href={`tel:${helpline.number.replace(/\D/g,'')}`} 
-                className="flex items-center text-sm font-medium text-primary hover:underline"
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className="mt-1"
+                onClick={() => handleCall(helpline.number)}
               >
-                {helpline.number}
-                <ExternalLink className="h-3 w-3 ml-1" />
-              </a>
+                Call
+              </Button>
             </div>
           ))}
         </div>
