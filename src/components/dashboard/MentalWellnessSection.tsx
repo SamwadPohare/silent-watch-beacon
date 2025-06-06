@@ -1,5 +1,5 @@
 
-import { Brain, Heart, Shield, ArrowRight } from "lucide-react";
+import { Brain, Heart, Shield, ArrowRight, Moon, Smartphone } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -19,10 +19,16 @@ const MentalWellnessSection = () => {
       url: "#mindfulness"
     },
     {
-      title: "Stress Management",
-      description: "Effective strategies to manage academic and social stress",
-      icon: <Shield className="h-5 w-5 text-blue-500" />,
-      url: "#stress"
+      title: "Digital Wellness",
+      description: "Healthy screen time habits and digital detox strategies",
+      icon: <Smartphone className="h-5 w-5 text-blue-500" />,
+      url: "/screen-time"
+    },
+    {
+      title: "Sleep Hygiene",
+      description: "Tips for better sleep quality and consistent sleep patterns",
+      icon: <Moon className="h-5 w-5 text-indigo-500" />,
+      url: "/sleep-quality"
     }
   ];
 
@@ -55,21 +61,21 @@ const MentalWellnessSection = () => {
           <div className="pt-2">
             <h3 className="font-medium text-sm mb-2">Weekly Wellness Tip</h3>
             <p className="text-sm italic border-l-2 border-primary/30 pl-3 py-1">
-              "Taking just 5 minutes each day for conscious breathing can significantly reduce stress levels and improve focus."
+              "Create a personalized daily schedule that balances study time, screen breaks, and wellness activities for optimal mental health."
             </p>
           </div>
           
           <div className="pt-2">
-            <Link to="/SleepQuality">
-              <Button variant="outline" className="w-full flex items-center justify-between">
+            <Link to="/sleep-quality">
+              <Button variant="outline" className="w-full flex items-center justify-between mb-2">
                 <span>View Sleep Quality Analysis</span>
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
           </div>
           
-          <div className="pt-1">
-            <Link to="/ActivityPatterns">
+          <div>
+            <Link to="/activity-patterns">
               <Button variant="outline" className="w-full flex items-center justify-between">
                 <span>View Activity Patterns</span>
                 <ArrowRight className="h-4 w-4" />

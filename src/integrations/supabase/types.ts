@@ -48,6 +48,33 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_schedules: {
+        Row: {
+          created_at: string
+          id: string
+          schedule_data: Json
+          schedule_date: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          schedule_data: Json
+          schedule_date: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          schedule_data?: Json
+          schedule_date?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       booking_confirmations: {
         Row: {
           booking_id: string | null
@@ -348,6 +375,36 @@ export type Database = {
         }
         Relationships: []
       }
+      screen_time_logs: {
+        Row: {
+          created_at: string
+          date: string
+          hours_used: number
+          id: string
+          last_notification_sent: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date?: string
+          hours_used?: number
+          id?: string
+          last_notification_sent?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          hours_used?: number
+          id?: string
+          last_notification_sent?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       sleep_quality: {
         Row: {
           bedtime: string
@@ -390,6 +447,36 @@ export type Database = {
           sleep_score?: number
           user_id?: string | null
           wake_time?: string
+        }
+        Relationships: []
+      }
+      user_preferences: {
+        Row: {
+          created_at: string
+          id: string
+          notifications_enabled: boolean | null
+          screen_time_limit_hours: number | null
+          sleep_hours_required: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notifications_enabled?: boolean | null
+          screen_time_limit_hours?: number | null
+          sleep_hours_required?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notifications_enabled?: boolean | null
+          screen_time_limit_hours?: number | null
+          sleep_hours_required?: number | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
